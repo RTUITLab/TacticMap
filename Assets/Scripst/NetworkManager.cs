@@ -6,6 +6,7 @@ using Photon.Pun;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private string version;
+    [SerializeField] private byte maxPlayers;
     void Start()
     {
         PhotonNetwork.GameVersion = version;
@@ -24,7 +25,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(null, new Photon.Realtime.RoomOptions { MaxPlayers = 2 });
+        PhotonNetwork.CreateRoom(null, new Photon.Realtime.RoomOptions { MaxPlayers = maxPlayers });
         Debug.Log("Создание комнаты");
     }
 
