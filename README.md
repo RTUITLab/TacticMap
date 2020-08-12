@@ -10,19 +10,20 @@
 
 ##### Instruction: #####
 ***
-- Open the project in Unity. 
-- Configurete Photon settings.
+- Open the project in Unity; 
+- Download Photon Pun 2 from asset store;
+- Configurete Photon settings;
 >Windows > Photon Unity Networking > Highlight Server Settings (Ctrl + Shift + Alt + P).
 >If the photon server will be used, then you need to enter App id realtime and check the "Use name server" box. Else uncheck box and insert ip into "Server" and default port 5055.
-- Bild visual studio solution.
+- Bild visual studio solution;
 - Deploy on Hololens.
 > If you get "Windows Mobile" error while building your project, in the solution folder, open HoloMapOnline> HoloMapOnline.vcxproj. At the end of the file, cut out the mention of Windows Mobile.
 
 
 ##### Photon server Instructoins: #####
 ***
-- Get ur server [license here.](https://dashboard.photonengine.com/en-US/selfhosted)
-- Download [server here.](https://www.photonengine.com/en-us/sdks#server-sdkserverserver)
+- Get ur server [license here](https://dashboard.photonengine.com/en-US/selfhosted)
+- Download [server here](https://www.photonengine.com/en-us/sdks#server-sdkserverserver)
 - Move license to deploy/bin_Win64/
-- Open PhotonControl.exe.
-- Start ur Photon On Premises Server.
+- Open PhotonControl.exe
+- Start ur Photon On Premises Server
