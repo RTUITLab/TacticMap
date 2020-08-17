@@ -45,6 +45,11 @@ public class Map : MonoBehaviourPunCallbacks
         photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
     }
 
+    public void popObj(int id)
+    {
+        objs.RemoveAt(id);
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PhotonNetwork.IsMasterClient)
@@ -60,6 +65,24 @@ public class Map : MonoBehaviourPunCallbacks
     public void SyncCatchedStatus(int id, int status)
     {
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status);
+    }
+
+    public void DestroyObj(int id)
+    {
+        photonView.RPC("destroy", RpcTarget.AllBuffered, id);
+    }
+
+    [PunRPC] private void destroy(int id)
+    {
+        InteractableObj buff = objs[id];
+        objs.RemoveAt(id);
+
+        for (int i = 0; i < objs.Count; ++i)
+        {
+            objs[i].SetNumber(i);
+        }
+
+        buff.DestroyObject();
     }
 
     [PunRPC] private void OnlineSpawn(int id)

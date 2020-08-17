@@ -96,6 +96,16 @@ public class InteractableObj : MonoBehaviour
         this.objNum = objNum;
     }
 
+    public int GetNumber()
+    {
+        return objNum;
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
+
     /// <summary>
     /// Обьект ни кем не схвачен = 2 и -2, обьект мой = 1, обьект чужой = -1
     /// </summary>
