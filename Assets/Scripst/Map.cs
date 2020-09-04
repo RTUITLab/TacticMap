@@ -62,7 +62,7 @@ public class Map : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SyncCatchedStatus(int id, int status)
+    public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status);
     }
@@ -90,6 +90,7 @@ public class Map : MonoBehaviourPunCallbacks
         GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, Quaternion.identity, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
         interactableObj.SetNumber(objs.Count);
+        interactableObj.map = this;
         objs.Add(interactableObj);
     }
 
@@ -108,8 +109,8 @@ public class Map : MonoBehaviourPunCallbacks
         objs[id].UpdScale(x, y, z);
     }
 
-    [PunRPC] private void SyncStatus(int id, int status)
+    [PunRPC] private void SyncStatus(int id, bool status)
     {
-        objs[id].CatchObj(status * -1);
+        objs[id].CatchObj(status);
     }
 }
