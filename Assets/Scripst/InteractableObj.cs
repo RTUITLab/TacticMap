@@ -142,4 +142,12 @@ public class InteractableObj : MonoBehaviour
             coloredObjs[i].material = material;
         }
     }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "recycle" && (catchedStatus == 2 || catchedStatus == -2) && PhotonNetwork.IsMasterClient)
+        {
+            map.DestroyObj(GetNumber());
+        }
+    }
 }
