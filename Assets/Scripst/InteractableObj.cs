@@ -23,6 +23,7 @@ public class InteractableObj : MonoBehaviour
     private Vector3 lastPosition;
     private Vector3 lastScale;
     private Quaternion lastRotation;
+    public bool isOnline = false;
 
     private status _localStatus = status.nobody;
     private status localStatus
@@ -180,6 +181,7 @@ public class InteractableObj : MonoBehaviour
 
     private void setObjSettings()
     {
+        if(!isOnline) { return; }
         if(localStatus == status.mine)
         {
             map.SyncCatchedStatus(GetNumber(), true);
@@ -208,7 +210,7 @@ public class InteractableObj : MonoBehaviour
 
     public void OnTriggerStay(Collider other)   //Мусорка
     {
-        if(other.tag == "recycle" && localStatus == status.nobody && PhotonNetwork.IsMasterClient)
+        if(other.tag == "recycle" && (localStatus == status.nobody && (PhotonNetwork.IsMasterClient || !isOnline)))
         {
             map.DestroyObj(GetNumber());
         }
