@@ -12,7 +12,7 @@ public class Map : MonoBehaviourPunCallbacks
     List<InteractableObj> objs = new List<InteractableObj>();
     private PhotonView photonView;
     private displayType _displayType = displayType.model;
-
+    public bool isOnline = false;
     private void Awake()
     {
         photonView = gameObject.GetComponent<PhotonView>();    
@@ -20,6 +20,8 @@ public class Map : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        if (!isOnline) { return; }
+
         for (int i = 0; i < objs.Count; ++i)
         {
             if (objs[i].NeedSyncPosition())
@@ -44,7 +46,14 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void Spawn(int id)
     {
-        photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
+        if (isOnline)
+        {
+            photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
+        }
+        else
+        {
+            OnlineSpawn(id);
+        }
     }
 
     public void popObj(int id)
@@ -83,12 +92,20 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
+        if(!isOnline) { return; }
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status);
     }
 
     public void DestroyObj(int id)
     {
-        photonView.RPC("destroy", RpcTarget.AllBuffered, id);
+        if (isOnline)
+        {
+            photonView.RPC("destroy", RpcTarget.AllBuffered, id);
+        }
+        else
+        {
+            destroy(id);
+        }
     }
 
     [PunRPC] private void destroy(int id)
@@ -111,6 +128,7 @@ public class Map : MonoBehaviourPunCallbacks
         interactableObj.SetNumber(objs.Count);
         interactableObj.map = this;
         interactableObj.ChangeDisplayType(_displayType);
+        interactableObj.isOnline = this.isOnline;
         objs.Add(interactableObj);
     }
 

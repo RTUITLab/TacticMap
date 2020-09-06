@@ -7,10 +7,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private string version;
     [SerializeField] private byte maxPlayers;
+    [SerializeField] private Map map;
+    [SerializeField] private GameObject[] inGame;
+    [SerializeField] private GameObject menuUI;
     void Start()
     {
-        PhotonNetwork.GameVersion = version;
-        PhotonNetwork.ConnectUsingSettings();
+        //PhotonNetwork.GameVersion = version;
+        //PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public void StartGame(bool isOnline)
+    {
+        if (isOnline)
+        {
+            PhotonNetwork.GameVersion = version;
+            PhotonNetwork.ConnectUsingSettings();
+            menuUI.SetActive(false);
+        }
+        else
+        {
+            map.isOnline = false;
+            SetObjActive(inGame, true);
+            menuUI.SetActive(false);
+        }
     }
 
     public override void OnConnectedToMaster()
@@ -21,6 +40,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Вы вошли в комнату");
+        SetObjActive(inGame, true);
+        map.isOnline = true;
     }
 
     public void CreateRoom()
@@ -42,5 +63,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom() //Когды вышел из комнаты. Наверно надо ливнуть в лобби (которого нет ибо мртк странно работает)
     {
         Debug.Log("Выход из комнаты");
+    }
+
+    private void SetObjActive(GameObject[] objts, bool active)
+    {
+        for (int i = 0; i < objts.Length; ++i)
+        {
+            objts[i].SetActive(active);
+        }
     }
 }
