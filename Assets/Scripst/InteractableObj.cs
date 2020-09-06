@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using Microsoft.MixedReality.Toolkit.UI;
+using Photon.Pun;
 using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,27 +11,54 @@ public class InteractableObj : MonoBehaviour
 {
     [SerializeField] private Vector3 offset;
     [SerializeField] private Material onStolenMaterial;
-    private Material standartMaterial;
     [SerializeField] private MeshRenderer[] coloredObjs;
-    private int catchedStatus = 0;
+    private Material standartMaterial;
+    private ObjectManipulator objectManipulator;
+    private BoundingBox boundingBox;
     private int objNum;
-    private Map map;
+    [HideInInspector] public Map map;
     [HideInInspector] public Transform transform;
     private Vector3 lastPosition;
     private Vector3 lastScale;
     private Quaternion lastRotation;
 
+    private status _localStatus = status.nobody;
+    private status localStatus
+    {
+        get { return _localStatus; }
+        set
+        {
+            _localStatus = value;
+            OnStatusChangeEvent();
+        }
+    }
+
+    public enum status
+    {
+        nobody,
+        them,
+        mine
+    }
+
+    public delegate void Action();
+    public event Action OnStatusChangeEvent;
+
     void Awake()
     {
-        map = GameObject.FindGameObjectWithTag("Map").GetComponent<Map>();
+        objectManipulator = gameObject.GetComponent<ObjectManipulator>();
+        boundingBox = gameObject.GetComponent<BoundingBox>();
+
         transform = gameObject.transform;
         lastPosition = transform.localPosition;
         lastScale = transform.localScale;
         lastRotation = transform.localRotation;
         transform.localPosition += offset;
+
         standartMaterial = coloredObjs[0].material;
+        OnStatusChangeEvent += setObjSettings;
     }
 
+    #region transform
     public bool NeedSyncPosition()
     {
         if (transform.localPosition != lastPosition)
@@ -91,6 +119,8 @@ public class InteractableObj : MonoBehaviour
         AfterScaleSync();
     }
 
+    #endregion transform
+
     public void SetNumber(int objNum)
     {
         this.objNum = objNum;
@@ -107,32 +137,56 @@ public class InteractableObj : MonoBehaviour
     }
 
     /// <summary>
-    /// Обьект ни кем не схвачен = 2 и -2, обьект мой = 1, обьект чужой = -1
+    /// Called only when a manipulation starts (true) or stops (false).
     /// </summary>
     /// <param name="catchedStatus"></param>
-    public void CatchObj(int catchedStatus)
+    public void LocalCatch(bool catchedStatus)
     {
-        this.catchedStatus = catchedStatus;
+        if (catchedStatus)
+        {
+            localStatus = status.mine;
+        }
+        else
+        {
+            localStatus = status.nobody;
+            map.SyncCatchedStatus(GetNumber(), false);
+        }
+    }
 
-        if (catchedStatus == -1)    //Кто то другой взял обьект
+    /// <summary>
+    /// if someone grabs an object, then comes here TRUE. If the object is released, then comes FALSE. Called outside (photon).
+    /// </summary>
+    /// <param name="catchedStatus"></param>
+    public void CatchObj(bool catchedStatus)
+    {
+        if (catchedStatus)
+        {
+            localStatus = status.them;
+        }
+        else
+        {
+            localStatus = status.nobody;
+        }
+    }
+
+    private void setObjSettings()
+    {
+        if(localStatus == status.mine)
+        {
+            map.SyncCatchedStatus(GetNumber(), true);
+        }
+        else if (localStatus == status.them)
         {
             ChangeAllMaterial(onStolenMaterial);
+            boundingBox.enabled = false;
+            objectManipulator.enabled = false;
         }
-        else if (catchedStatus == 2)    //Отпустили обьект
-        {
-            map.SyncCatchedStatus(objNum, catchedStatus);
-            ChangeAllMaterial(standartMaterial);
-        }
-        else if (catchedStatus == -2)
+        else if (localStatus == status.nobody)
         {
             ChangeAllMaterial(standartMaterial);
+            boundingBox.enabled = true;
+            objectManipulator.enabled = true;
         }
-        else if(catchedStatus == 1) //Взяли обьект
-        {
-            map.SyncCatchedStatus(objNum, catchedStatus);
-        }
-
-        Debug.Log($"Статус обьекта обновлён на {catchedStatus}");
     }
 
     private void ChangeAllMaterial(Material material)
@@ -140,6 +194,14 @@ public class InteractableObj : MonoBehaviour
         for (int i = 0; i < coloredObjs.Length; ++i)
         {
             coloredObjs[i].material = material;
+        }
+    }
+
+    public void OnTriggerStay(Collider other)   //Мусорка
+    {
+        if(other.tag == "recycle" && localStatus == status.nobody && PhotonNetwork.IsMasterClient)
+        {
+            map.DestroyObj(GetNumber());
         }
     }
 }

@@ -1,6 +1,5 @@
 # TacticMap #
 
-***
 ##### What was used: #####
 ***
   - [![Unity Version](https://img.shields.io/badge/unity-2018.4.21-blue.svg)](https://unity3d.com/get-unity/download)
