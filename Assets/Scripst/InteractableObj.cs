@@ -10,6 +10,8 @@ using UnityEngine;
 public class InteractableObj : MonoBehaviour
 {
     [SerializeField] private Vector3 offset;
+    [SerializeField] private GameObject symbol; //Условное обозначение на топографической карте.
+    [SerializeField] private GameObject model;
     [SerializeField] private Material onStolenMaterial;
     [SerializeField] private MeshRenderer[] coloredObjs;
     private Material standartMaterial;
@@ -39,6 +41,13 @@ public class InteractableObj : MonoBehaviour
         them,
         mine
     }
+
+    public enum displayType
+    {
+        model,
+        symbol
+    }
+
 
     public delegate void Action();
     public event Action OnStatusChangeEvent;
@@ -202,6 +211,25 @@ public class InteractableObj : MonoBehaviour
         if(other.tag == "recycle" && localStatus == status.nobody && PhotonNetwork.IsMasterClient)
         {
             map.DestroyObj(GetNumber());
+        }
+    }
+
+
+    /// <summary>
+    /// if True - 3D Model active
+    /// </summary>
+    /// <param name="type"></param>
+    public void ChangeDisplayType(displayType type)
+    {
+        if (type == displayType.model)
+        {
+            model.SetActive(true);
+            symbol.SetActive(false);
+        }
+        else if(type == displayType.symbol)
+        {
+            model.SetActive(false);
+            symbol.SetActive(true);
         }
     }
 }

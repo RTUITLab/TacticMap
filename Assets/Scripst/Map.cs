@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using static InteractableObj;
 
 [RequireComponent(typeof(PhotonView))]
 public class Map : MonoBehaviourPunCallbacks
@@ -10,6 +11,7 @@ public class Map : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] prefabs;
     List<InteractableObj> objs = new List<InteractableObj>();
     private PhotonView photonView;
+    private displayType _displayType = displayType.model;
 
     private void Awake()
     {
@@ -48,6 +50,23 @@ public class Map : MonoBehaviourPunCallbacks
     public void popObj(int id)
     {
         objs.RemoveAt(id);
+    }
+
+    public void BtnChangeDisplayType()
+    {
+        if(_displayType == displayType.model)
+        {
+            _displayType = displayType.symbol;
+        }
+        else
+        {
+            _displayType = displayType.model;
+        }
+        
+        for (int i = 0; i < objs.Count; ++i)
+        {
+            objs[i].ChangeDisplayType(_displayType);
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -91,6 +110,7 @@ public class Map : MonoBehaviourPunCallbacks
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
         interactableObj.SetNumber(objs.Count);
         interactableObj.map = this;
+        interactableObj.ChangeDisplayType(_displayType);
         objs.Add(interactableObj);
     }
 
