@@ -90,10 +90,10 @@ public class Map : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
+    public void SyncCatchedStatus(int id, bool status, string name)   // true я захватил, false - я отпустил
     {
         if(!isOnline) { return; }
-        photonView.RPC("SyncStatus", RpcTarget.Others, id, status);
+        photonView.RPC("SyncStatus", RpcTarget.Others, id, status, name);
     }
 
     public void DestroyObj(int id)
@@ -147,8 +147,8 @@ public class Map : MonoBehaviourPunCallbacks
         objs[id].UpdScale(x, y, z);
     }
 
-    [PunRPC] private void SyncStatus(int id, bool status)
+    [PunRPC] private void SyncStatus(int id, bool status, string name)
     {
-        objs[id].CatchObj(status);
+        objs[id].CatchObj(status, name);
     }
 }

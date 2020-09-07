@@ -4,6 +4,7 @@ using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class InteractableObj : MonoBehaviour
     [SerializeField] private GameObject model;
     [SerializeField] private Material onStolenMaterial;
     [SerializeField] private MeshRenderer[] coloredObjs;
+    [SerializeField] private TextMeshProUGUI textMesh;
     private Material standartMaterial;
     private ObjectManipulator objectManipulator;
     private BoundingBox boundingBox;
@@ -24,6 +26,8 @@ public class InteractableObj : MonoBehaviour
     private Vector3 lastScale;
     private Quaternion lastRotation;
     public bool isOnline = false;
+    public string myName;
+    private string catherName = "";
 
     private status _localStatus = status.nobody;
     private status localStatus
@@ -55,6 +59,7 @@ public class InteractableObj : MonoBehaviour
 
     void Awake()
     {
+        myName = UserName.userName;
         objectManipulator = gameObject.GetComponent<ObjectManipulator>();
         boundingBox = gameObject.GetComponent<BoundingBox>();
 
@@ -159,7 +164,7 @@ public class InteractableObj : MonoBehaviour
         else
         {
             localStatus = status.nobody;
-            map.SyncCatchedStatus(GetNumber(), false);
+            map.SyncCatchedStatus(GetNumber(), false, "");
         }
     }
 
@@ -167,8 +172,9 @@ public class InteractableObj : MonoBehaviour
     /// if someone grabs an object, then comes here TRUE. If the object is released, then comes FALSE. Called outside (photon).
     /// </summary>
     /// <param name="catchedStatus"></param>
-    public void CatchObj(bool catchedStatus)
+    public void CatchObj(bool catchedStatus, string name)
     {
+        catherName = name;
         if (catchedStatus)
         {
             localStatus = status.them;
@@ -184,7 +190,8 @@ public class InteractableObj : MonoBehaviour
         if(!isOnline) { return; }
         if(localStatus == status.mine)
         {
-            map.SyncCatchedStatus(GetNumber(), true);
+            map.SyncCatchedStatus(GetNumber(), true, myName);
+            catherName = "";
         }
         else if (localStatus == status.them)
         {
@@ -197,7 +204,9 @@ public class InteractableObj : MonoBehaviour
             ChangeAllMaterial(standartMaterial);
             boundingBox.enabled = true;
             objectManipulator.enabled = true;
+            catherName = "";
         }
+        textMesh.text = catherName;
     }
 
     private void ChangeAllMaterial(Material material)
