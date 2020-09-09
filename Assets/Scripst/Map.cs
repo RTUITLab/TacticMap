@@ -12,7 +12,6 @@ public class Map : MonoBehaviourPunCallbacks
     List<InteractableObj> objs = new List<InteractableObj>();
     private PhotonView photonView;
     private displayType _displayType = displayType.model;
-    public bool isOnline = false;
     private void Awake()
     {
         photonView = gameObject.GetComponent<PhotonView>();    
@@ -20,7 +19,7 @@ public class Map : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!isOnline) { return; }
+        if (!NetworkManager.isOnline) { return; }
 
         for (int i = 0; i < objs.Count; ++i)
         {
@@ -46,7 +45,7 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void Spawn(int id)
     {
-        if (isOnline)
+        if (NetworkManager.isOnline)
         {
             photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
         }
@@ -86,19 +85,20 @@ public class Map : MonoBehaviourPunCallbacks
             {
                 photonView.RPC("SyncPos", RpcTarget.Others, i, objs[i].transform.localPosition.x, objs[i].transform.localPosition.y, objs[i].transform.localPosition.z);
                 photonView.RPC("SyncRot", RpcTarget.Others, i, objs[i].transform.localRotation.x, objs[i].transform.localRotation.y, objs[i].transform.localRotation.z, objs[i].transform.localRotation.w);
+                photonView.RPC("SyncScale", RpcTarget.Others, i, objs[i].transform.localScale.x, objs[i].transform.localScale.y, objs[i].transform.localScale.z);
             }
         }
     }
 
-    public void SyncCatchedStatus(int id, bool status, string name)   // true я захватил, false - я отпустил
+    public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
-        if(!isOnline) { return; }
-        photonView.RPC("SyncStatus", RpcTarget.Others, id, status, name);
+        if(!NetworkManager.isOnline) { return; }
+        photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
     }
 
     public void DestroyObj(int id)
     {
-        if (isOnline)
+        if (NetworkManager.isOnline)
         {
             photonView.RPC("destroy", RpcTarget.AllBuffered, id);
         }
@@ -128,7 +128,6 @@ public class Map : MonoBehaviourPunCallbacks
         interactableObj.SetNumber(objs.Count);
         interactableObj.map = this;
         interactableObj.ChangeDisplayType(_displayType);
-        interactableObj.isOnline = this.isOnline;
         objs.Add(interactableObj);
     }
 

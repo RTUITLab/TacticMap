@@ -25,8 +25,6 @@ public class InteractableObj : MonoBehaviour
     private Vector3 lastPosition;
     private Vector3 lastScale;
     private Quaternion lastRotation;
-    public bool isOnline = false;
-    public string myName;
     private string catherName = "";
 
     private status _localStatus = status.nobody;
@@ -59,7 +57,6 @@ public class InteractableObj : MonoBehaviour
 
     void Awake()
     {
-        myName = UserName.userName;
         objectManipulator = gameObject.GetComponent<ObjectManipulator>();
         boundingBox = gameObject.GetComponent<BoundingBox>();
 
@@ -164,7 +161,7 @@ public class InteractableObj : MonoBehaviour
         else
         {
             localStatus = status.nobody;
-            map.SyncCatchedStatus(GetNumber(), false, "");
+            map.SyncCatchedStatus(GetNumber(), false);
         }
     }
 
@@ -187,10 +184,10 @@ public class InteractableObj : MonoBehaviour
 
     private void setObjSettings()
     {
-        if(!isOnline) { return; }
+        if(!NetworkManager.isOnline) { return; }
         if(localStatus == status.mine)
         {
-            map.SyncCatchedStatus(GetNumber(), true, myName);
+            map.SyncCatchedStatus(GetNumber(), true);
             catherName = "";
         }
         else if (localStatus == status.them)
@@ -219,7 +216,7 @@ public class InteractableObj : MonoBehaviour
 
     public void OnTriggerStay(Collider other)   //Мусорка
     {
-        if(other.tag == "recycle" && (localStatus == status.nobody && (PhotonNetwork.IsMasterClient || !isOnline)))
+        if(other.tag == "recycle" && (localStatus == status.nobody && (PhotonNetwork.IsMasterClient || !NetworkManager.isOnline)))
         {
             map.DestroyObj(GetNumber());
         }

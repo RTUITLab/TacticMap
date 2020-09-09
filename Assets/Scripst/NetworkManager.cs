@@ -10,6 +10,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Map map;
     [SerializeField] private GameObject[] inGame;
     [SerializeField] private GameObject menuUI;
+    public static bool isOnline = false;
     void Start()
     {
         //PhotonNetwork.GameVersion = version;
@@ -26,7 +27,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            map.isOnline = false;
+            isOnline = false;
             SetObjActive(inGame, true);
             menuUI.SetActive(false);
         }
@@ -41,7 +42,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Вы вошли в комнату");
         SetObjActive(inGame, true);
-        map.isOnline = true;
+        isOnline = true;
     }
 
     public void CreateRoom()
