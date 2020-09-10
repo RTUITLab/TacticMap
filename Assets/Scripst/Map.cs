@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using static InteractableObj;
 
 [RequireComponent(typeof(PhotonView))]
 public class Map : MonoBehaviourPunCallbacks
@@ -11,7 +9,7 @@ public class Map : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] prefabs;
     List<InteractableObj> objs = new List<InteractableObj>();
     private PhotonView photonView;
-    private displayType _displayType = displayType.model;
+    private DisplayTypes _displayType = DisplayTypes.Model;
     private void Awake()
     {
         photonView = gameObject.GetComponent<PhotonView>();    
@@ -19,7 +17,7 @@ public class Map : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!NetworkManager.isOnline) { return; }
+        if (NetworkManager.gameStatus == GameStatus.Offline) { return; }
 
         for (int i = 0; i < objs.Count; ++i)
         {
@@ -45,30 +43,25 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void Spawn(int id)
     {
-        if (NetworkManager.isOnline)
+        if (NetworkManager.gameStatus == GameStatus.Online)
         {
             photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
         }
         else
         {
-            OnlineSpawn(id);
+            OnlineSpawn(id);    //Без интернета вызываеться тот же метод что и через сеть. От сюд и название.
         }
-    }
-
-    public void popObj(int id)
-    {
-        objs.RemoveAt(id);
     }
 
     public void BtnChangeDisplayType()
     {
-        if(_displayType == displayType.model)
+        if(_displayType == DisplayTypes.Model)
         {
-            _displayType = displayType.symbol;
+            _displayType = DisplayTypes.Symbol;
         }
         else
         {
-            _displayType = displayType.model;
+            _displayType = DisplayTypes.Model;
         }
         
         for (int i = 0; i < objs.Count; ++i)
@@ -92,13 +85,13 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
-        if(!NetworkManager.isOnline) { return; }
+        if(NetworkManager.gameStatus == GameStatus.Offline) { return; }
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
     }
 
     public void DestroyObj(int id)
     {
-        if (NetworkManager.isOnline)
+        if (NetworkManager.gameStatus == GameStatus.Online)
         {
             photonView.RPC("destroy", RpcTarget.AllBuffered, id);
         }
@@ -115,7 +108,7 @@ public class Map : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < objs.Count; ++i)
         {
-            objs[i].SetNumber(i);
+            objs[i].SetID(i);
         }
 
         buff.DestroyObject();
@@ -125,7 +118,7 @@ public class Map : MonoBehaviourPunCallbacks
     {
         GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, Quaternion.identity, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
-        interactableObj.SetNumber(objs.Count);
+        interactableObj.SetID(objs.Count);
         interactableObj.map = this;
         interactableObj.ChangeDisplayType(_displayType);
         objs.Add(interactableObj);
