@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class UserName : MonoBehaviour
@@ -9,6 +7,7 @@ public class UserName : MonoBehaviour
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private string standartName = "Hololens";
     private string startString = "Your name: ";
+    private string fieldName = "userName";
     public static string userName = "";
 
     private TouchScreenKeyboard keyboard;
@@ -17,19 +16,18 @@ public class UserName : MonoBehaviour
     {
         try
         {
-            userName = PlayerPrefs.GetString("userName");
+            userName = PlayerPrefs.GetString(fieldName);
             if(userName == "")
             {
-                PlayerPrefs.SetString("userName", standartName);
+                PlayerPrefs.SetString(fieldName, standartName);
                 userName = standartName;
             }
             PrintName(userName);
         }
         catch
         {   
-            PlayerPrefs.SetString("userName", standartName);
+            PlayerPrefs.SetString(fieldName, standartName);
             userName = standartName;
-            Debug.Log("nen");
             PrintName(userName);
         }
     }
@@ -44,7 +42,7 @@ public class UserName : MonoBehaviour
         if (inputField.text != "")
         {
             userName = inputField.text.Trim();
-            PlayerPrefs.SetString("userName", userName);
+            PlayerPrefs.SetString(fieldName, userName);
             PrintName(userName);
         }
         else

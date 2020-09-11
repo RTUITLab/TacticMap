@@ -1,26 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using static InteractableObj;
 
 [RequireComponent(typeof(PhotonView))]
 public class Map : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject[] prefabs;
-    List<InteractableObj> objs = new List<InteractableObj>();
+    private List<InteractableObj> objs = new List<InteractableObj>();
     private PhotonView photonView;
-    private displayType _displayType = displayType.model;
-    public bool isOnline = false;
+    private DisplayTypes _displayType = DisplayTypes.Model;
+    private Transform transform;
+   
     private void Awake()
     {
-        photonView = gameObject.GetComponent<PhotonView>();    
+        photonView = gameObject.GetComponent<PhotonView>();
+        transform = gameObject.transform;
     }
 
     void Update()
     {
-        if (!isOnline) { return; }
+        if (NetworkManager.gameStatus == GameStatus.Offline) { return; }
 
         for (int i = 0; i < objs.Count; ++i)
         {
@@ -46,30 +46,25 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void Spawn(int id)
     {
-        if (isOnline)
+        if (NetworkManager.gameStatus == GameStatus.Online)
         {
             photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
         }
         else
         {
-            OnlineSpawn(id);
+            OnlineSpawn(id);    //Без интернета вызываеться тот же метод что и через сеть. От сюд и название.
         }
-    }
-
-    public void popObj(int id)
-    {
-        objs.RemoveAt(id);
     }
 
     public void BtnChangeDisplayType()
     {
-        if(_displayType == displayType.model)
+        if(_displayType == DisplayTypes.Model)
         {
-            _displayType = displayType.symbol;
+            _displayType = DisplayTypes.Symbol;
         }
         else
         {
-            _displayType = displayType.model;
+            _displayType = DisplayTypes.Model;
         }
         
         for (int i = 0; i < objs.Count; ++i)
@@ -86,19 +81,20 @@ public class Map : MonoBehaviourPunCallbacks
             {
                 photonView.RPC("SyncPos", RpcTarget.Others, i, objs[i].transform.localPosition.x, objs[i].transform.localPosition.y, objs[i].transform.localPosition.z);
                 photonView.RPC("SyncRot", RpcTarget.Others, i, objs[i].transform.localRotation.x, objs[i].transform.localRotation.y, objs[i].transform.localRotation.z, objs[i].transform.localRotation.w);
+                photonView.RPC("SyncScale", RpcTarget.Others, i, objs[i].transform.localScale.x, objs[i].transform.localScale.y, objs[i].transform.localScale.z);
             }
         }
     }
 
-    public void SyncCatchedStatus(int id, bool status, string name)   // true я захватил, false - я отпустил
+    public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
-        if(!isOnline) { return; }
-        photonView.RPC("SyncStatus", RpcTarget.Others, id, status, name);
+        if(NetworkManager.gameStatus == GameStatus.Offline) { return; }
+        photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
     }
 
     public void DestroyObj(int id)
     {
-        if (isOnline)
+        if (NetworkManager.gameStatus == GameStatus.Online)
         {
             photonView.RPC("destroy", RpcTarget.AllBuffered, id);
         }
@@ -115,7 +111,7 @@ public class Map : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < objs.Count; ++i)
         {
-            objs[i].SetNumber(i);
+            objs[i].SetID(i);
         }
 
         buff.DestroyObject();
@@ -125,10 +121,7 @@ public class Map : MonoBehaviourPunCallbacks
     {
         GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, Quaternion.identity, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
-        interactableObj.SetNumber(objs.Count);
-        interactableObj.map = this;
-        interactableObj.ChangeDisplayType(_displayType);
-        interactableObj.isOnline = this.isOnline;
+        interactableObj.OnSpawn(objs.Count, this, _displayType, transform.rotation);
         objs.Add(interactableObj);
     }
 

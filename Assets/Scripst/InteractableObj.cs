@@ -1,11 +1,6 @@
 ﻿using Microsoft.MixedReality.Toolkit.UI;
 using Photon.Pun;
-using System.CodeDom;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class InteractableObj : MonoBehaviour
@@ -19,18 +14,16 @@ public class InteractableObj : MonoBehaviour
     private Material standartMaterial;
     private ObjectManipulator objectManipulator;
     private BoundingBox boundingBox;
-    private int objNum;
-    [HideInInspector] public Map map;
+    private int ID;
+    private Map map;
     [HideInInspector] public Transform transform;
     private Vector3 lastPosition;
     private Vector3 lastScale;
     private Quaternion lastRotation;
-    public bool isOnline = false;
-    public string myName;
     private string catherName = "";
 
-    private status _localStatus = status.nobody;
-    private status localStatus
+    private Statuses _localStatus = Statuses.Nobody;
+    private Statuses localStatus
     {
         get { return _localStatus; }
         set
@@ -40,26 +33,12 @@ public class InteractableObj : MonoBehaviour
         }
     }
 
-    public enum status
-    {
-        nobody,
-        them,
-        mine
-    }
-
-    public enum displayType
-    {
-        model,
-        symbol
-    }
-
 
     public delegate void Action();
     public event Action OnStatusChangeEvent;
 
     void Awake()
     {
-        myName = UserName.userName;
         objectManipulator = gameObject.GetComponent<ObjectManipulator>();
         boundingBox = gameObject.GetComponent<BoundingBox>();
 
@@ -74,6 +53,10 @@ public class InteractableObj : MonoBehaviour
     }
 
     #region transform
+    /// <summary>
+    /// Checking the need for synchronization.
+    /// </summary>
+    /// <returns></returns>
     public bool NeedSyncPosition()
     {
         if (transform.localPosition != lastPosition)
@@ -101,7 +84,7 @@ public class InteractableObj : MonoBehaviour
         return false;
     }
 
-    public void AfterPositionSync()
+    public void AfterPositionSync() 
     {
         lastPosition = transform.localPosition;
     }
@@ -136,14 +119,14 @@ public class InteractableObj : MonoBehaviour
 
     #endregion transform
 
-    public void SetNumber(int objNum)
+    public void SetID(int objNum)
     {
-        this.objNum = objNum;
+        this.ID = objNum;
     }
 
-    public int GetNumber()
+    public int GetID()
     {
-        return objNum;
+        return ID;
     }
 
     public void DestroyObject()
@@ -159,12 +142,12 @@ public class InteractableObj : MonoBehaviour
     {
         if (catchedStatus)
         {
-            localStatus = status.mine;
+            localStatus = Statuses.Mine;
         }
         else
         {
-            localStatus = status.nobody;
-            map.SyncCatchedStatus(GetNumber(), false, "");
+            localStatus = Statuses.Nobody;
+            map.SyncCatchedStatus(GetID(), false);
         }
     }
 
@@ -177,29 +160,29 @@ public class InteractableObj : MonoBehaviour
         catherName = name;
         if (catchedStatus)
         {
-            localStatus = status.them;
+            localStatus = Statuses.Them;
         }
         else
         {
-            localStatus = status.nobody;
+            localStatus = Statuses.Nobody;
         }
     }
 
     private void setObjSettings()
     {
-        if(!isOnline) { return; }
-        if(localStatus == status.mine)
+        if(NetworkManager.gameStatus == GameStatus.Offline) { return; }
+        if(localStatus == Statuses.Mine)
         {
-            map.SyncCatchedStatus(GetNumber(), true, myName);
+            map.SyncCatchedStatus(GetID(), true);
             catherName = "";
         }
-        else if (localStatus == status.them)
+        else if (localStatus == Statuses.Them)
         {
             ChangeAllMaterial(onStolenMaterial);
             boundingBox.enabled = false;
             objectManipulator.enabled = false;
         }
-        else if (localStatus == status.nobody)
+        else if (localStatus == Statuses.Nobody)
         {
             ChangeAllMaterial(standartMaterial);
             boundingBox.enabled = true;
@@ -219,9 +202,9 @@ public class InteractableObj : MonoBehaviour
 
     public void OnTriggerStay(Collider other)   //Мусорка
     {
-        if(other.tag == "recycle" && (localStatus == status.nobody && (PhotonNetwork.IsMasterClient || !isOnline)))
+        if(other.tag == "recycle" && (localStatus == Statuses.Nobody && (PhotonNetwork.IsMasterClient || NetworkManager.gameStatus == GameStatus.Offline)))
         {
-            map.DestroyObj(GetNumber());
+            map.DestroyObj(GetID());
         }
     }
 
@@ -230,17 +213,25 @@ public class InteractableObj : MonoBehaviour
     /// if True - 3D Model active
     /// </summary>
     /// <param name="type"></param>
-    public void ChangeDisplayType(displayType type)
+    public void ChangeDisplayType(DisplayTypes type)
     {
-        if (type == displayType.model)
+        if (type == DisplayTypes.Model)
         {
             model.SetActive(true);
             symbol.SetActive(false);
         }
-        else if(type == displayType.symbol)
+        else if(type == DisplayTypes.Symbol)
         {
             model.SetActive(false);
             symbol.SetActive(true);
         }
+    }
+
+    public void OnSpawn(int id, Map map, DisplayTypes displayType, Quaternion rotation)
+    {
+        SetID(id);
+        this.map = map;
+        ChangeDisplayType(displayType);
+        transform.rotation = rotation;
     }
 }

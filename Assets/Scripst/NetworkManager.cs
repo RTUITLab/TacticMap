@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon.Pun;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
@@ -8,13 +6,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private string version;
     [SerializeField] private byte maxPlayers;
     [SerializeField] private Map map;
-    [SerializeField] private GameObject[] inGame;
-    [SerializeField] private GameObject menuUI;
-    void Start()
-    {
-        //PhotonNetwork.GameVersion = version;
-        //PhotonNetwork.ConnectUsingSettings();
-    }
+    [SerializeField] private GameObject[] inGame;   //Игровое поле и другие обьекты доступные только во время игры.
+    [SerializeField] private GameObject menuUI;     //UI который не должен быть виден во время игры.
+    public static GameStatus gameStatus = GameStatus.Offline;
 
     public void StartGame(bool isOnline)
     {
@@ -26,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            map.isOnline = false;
+            gameStatus = GameStatus.Offline;
             SetObjActive(inGame, true);
             menuUI.SetActive(false);
         }
@@ -41,7 +35,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Вы вошли в комнату");
         SetObjActive(inGame, true);
-        map.isOnline = true;
+        gameStatus = GameStatus.Online;
     }
 
     public void CreateRoom()
