@@ -7,12 +7,15 @@ using Photon.Realtime;
 public class Map : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject[] prefabs;
-    List<InteractableObj> objs = new List<InteractableObj>();
+    private List<InteractableObj> objs = new List<InteractableObj>();
     private PhotonView photonView;
     private DisplayTypes _displayType = DisplayTypes.Model;
+    private Transform transform;
+   
     private void Awake()
     {
-        photonView = gameObject.GetComponent<PhotonView>();    
+        photonView = gameObject.GetComponent<PhotonView>();
+        transform = gameObject.transform;
     }
 
     void Update()
@@ -118,9 +121,7 @@ public class Map : MonoBehaviourPunCallbacks
     {
         GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, Quaternion.identity, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
-        interactableObj.SetID(objs.Count);
-        interactableObj.map = this;
-        interactableObj.ChangeDisplayType(_displayType);
+        interactableObj.OnSpawn(objs.Count, this, _displayType, transform.rotation);
         objs.Add(interactableObj);
     }
 

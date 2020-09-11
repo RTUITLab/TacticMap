@@ -15,7 +15,7 @@ public class InteractableObj : MonoBehaviour
     private ObjectManipulator objectManipulator;
     private BoundingBox boundingBox;
     private int ID;
-    [HideInInspector] public Map map;
+    private Map map;
     [HideInInspector] public Transform transform;
     private Vector3 lastPosition;
     private Vector3 lastScale;
@@ -225,5 +225,13 @@ public class InteractableObj : MonoBehaviour
             model.SetActive(false);
             symbol.SetActive(true);
         }
+    }
+
+    public void OnSpawn(int id, Map map, DisplayTypes displayType, Quaternion rotation)
+    {
+        SetID(id);
+        this.map = map;
+        ChangeDisplayType(displayType);
+        transform.rotation = rotation;
     }
 }
