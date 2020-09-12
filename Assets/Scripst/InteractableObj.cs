@@ -21,9 +21,12 @@ public class InteractableObj : MonoBehaviour
     private Vector3 lastScale;
     private Quaternion lastRotation;
     private string catherName = "";
+    private static float speed = 2f;
+
+    private Vector3 direction = Vector3.zero;
 
     private Statuses _localStatus = Statuses.Nobody;
-    private Statuses localStatus
+    public Statuses localStatus
     {
         get { return _localStatus; }
         set
@@ -43,12 +46,21 @@ public class InteractableObj : MonoBehaviour
         boundingBox = gameObject.GetComponent<BoundingBox>();
 
         transform = gameObject.transform;
+        direction = transform.localPosition;
         lastPosition = transform.localPosition;
         lastScale = transform.localScale;
         lastRotation = transform.localRotation;
         transform.localPosition += offset;
 
         OnStatusChangeEvent += setObjSettings;
+    }
+
+    private void Update()
+    {
+        if(localStatus == Statuses.Them && direction != transform.localPosition && Vector3.Distance(transform.localPosition, direction) > 0.01f)
+        {
+            transform.Translate(Time.deltaTime * (direction - transform.localPosition).normalized * speed);
+        }
     }
 
     #region transform
@@ -58,7 +70,12 @@ public class InteractableObj : MonoBehaviour
     /// <returns></returns>
     public bool NeedSyncPosition()
     {
-        if (transform.localPosition != lastPosition)
+        //if (direction != lastPosition)
+        //{
+        //    return true;
+        //}
+        //return false;
+        if(localStatus == Statuses.Mine)
         {
             return true;
         }
@@ -85,7 +102,7 @@ public class InteractableObj : MonoBehaviour
 
     public void AfterPositionSync() 
     {
-        lastPosition = transform.localPosition;
+        lastPosition = direction;
     }
 
     public void AfterRotationSync()
@@ -100,7 +117,14 @@ public class InteractableObj : MonoBehaviour
 
     public void UpdPosition(float x, float y, float z)
     {
-        transform.localPosition = new Vector3(x, y, z);
+        direction = new Vector3(x, y, z);
+        Debug.Log("");
+        AfterPositionSync();
+    }
+
+    public void UpdPosition()
+    {
+        direction = transform.localPosition;
         AfterPositionSync();
     }
 
