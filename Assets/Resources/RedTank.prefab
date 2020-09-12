@@ -238,15 +238,15 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: -0.015}
   symbol: {fileID: 3817011623815532216}
   model: {fileID: 7831756226335584691}
-  onStolenMaterial: {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
   coloredObjs:
   - {fileID: 7831756226333323123}
   - {fileID: 3817011623817465976}
   textMesh: {fileID: 184438290730426209}
-  map: {fileID: 0}
+  standartMaterials:
+  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
+  - {fileID: 2100000, guid: a5dec2ae0831b6d4fbd931f8b5d9abcf, type: 2}
+  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
   transform: {fileID: 0}
-  isOnline: 0
-  whoCatch: 
 --- !u!1 &1307353219448835916
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +571,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
+  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -648,7 +648,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
+  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
