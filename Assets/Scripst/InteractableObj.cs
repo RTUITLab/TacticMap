@@ -8,10 +8,10 @@ public class InteractableObj : MonoBehaviour
     [SerializeField] private Vector3 offset;
     [SerializeField] private GameObject symbol; //Условное обозначение на топографической карте.
     [SerializeField] private GameObject model;
-    [SerializeField] private Material onStolenMaterial;
     [SerializeField] private MeshRenderer[] coloredObjs;
     [SerializeField] private TextMeshProUGUI textMesh;
-    private Material standartMaterial;
+    [SerializeField] private Material[] standartMaterials;
+    private int myMaterialId;
     private ObjectManipulator objectManipulator;
     private BoundingBox boundingBox;
     private int ID;
@@ -48,7 +48,6 @@ public class InteractableObj : MonoBehaviour
         lastRotation = transform.localRotation;
         transform.localPosition += offset;
 
-        standartMaterial = coloredObjs[0].material;
         OnStatusChangeEvent += setObjSettings;
     }
 
@@ -178,13 +177,13 @@ public class InteractableObj : MonoBehaviour
         }
         else if (localStatus == Statuses.Them)
         {
-            ChangeAllMaterial(onStolenMaterial);
+            ChangeAllMaterial(standartMaterials[(int)ObjMaterial.Gray]);
             boundingBox.enabled = false;
             objectManipulator.enabled = false;
         }
         else if (localStatus == Statuses.Nobody)
         {
-            ChangeAllMaterial(standartMaterial);
+            ChangeAllMaterial(standartMaterials[myMaterialId]);
             boundingBox.enabled = true;
             objectManipulator.enabled = true;
             catherName = "";
@@ -227,11 +226,12 @@ public class InteractableObj : MonoBehaviour
         }
     }
 
-    public void OnSpawn(int id, Map map, DisplayTypes displayType, Quaternion rotation)
+    public void OnSpawn(int id, int materialId, Map map, DisplayTypes displayType)
     {
         SetID(id);
         this.map = map;
         ChangeDisplayType(displayType);
-        transform.rotation = rotation;
+        ChangeAllMaterial(standartMaterials[materialId]);
+        myMaterialId = materialId;
     }
 }

@@ -16,3 +16,10 @@ public enum GameStatus
     Offline,
     Online
 }
+
+public enum ObjMaterial
+{
+    Gray,
+    Blue,
+    Red
+}

@@ -11,6 +11,7 @@ public class Map : MonoBehaviourPunCallbacks
     private PhotonView photonView;
     private DisplayTypes _displayType = DisplayTypes.Model;
     private Transform transform;
+    private ObjMaterial material = ObjMaterial.Gray;
    
     private void Awake()
     {
@@ -104,6 +105,11 @@ public class Map : MonoBehaviourPunCallbacks
         }
     }
 
+    public void SetMaterial(int idMaterial) 
+    {
+        photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
+    }
+
     [PunRPC] private void destroy(int id)
     {
         InteractableObj buff = objs[id];
@@ -119,9 +125,9 @@ public class Map : MonoBehaviourPunCallbacks
 
     [PunRPC] private void OnlineSpawn(int id)
     {
-        GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, Quaternion.identity, gameObject.transform);
+        GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, transform.rotation, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
-        interactableObj.OnSpawn(objs.Count, this, _displayType, transform.rotation);
+        interactableObj.OnSpawn(objs.Count, (int)material, this, _displayType);
         objs.Add(interactableObj);
     }
 
@@ -143,5 +149,10 @@ public class Map : MonoBehaviourPunCallbacks
     [PunRPC] private void SyncStatus(int id, bool status, string name)
     {
         objs[id].CatchObj(status, name);
+    }
+
+    [PunRPC] private void SyncMaterial(int idMaterial)
+    {
+        material = (ObjMaterial)idMaterial;
     }
 }
