@@ -109,7 +109,14 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void SetMaterial(int idMaterial) 
     {
-        photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
+        if (NetworkManager.gameStatus == GameStatus.Online)
+        {
+            photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
+        }
+        else
+        {
+            material = (ObjMaterial)idMaterial;
+        }
     }
 
     [PunRPC] private void destroy(int id)
