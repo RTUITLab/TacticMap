@@ -21,9 +21,12 @@ public class InteractableObj : MonoBehaviour
     private Vector3 lastScale;
     private Quaternion lastRotation;
     private string catherName = "";
+    private static float speed = 10f;
+
+    private Vector3 direction = Vector3.zero;
 
     private Statuses _localStatus = Statuses.Nobody;
-    private Statuses localStatus
+    public Statuses localStatus
     {
         get { return _localStatus; }
         set
@@ -47,8 +50,19 @@ public class InteractableObj : MonoBehaviour
         lastScale = transform.localScale;
         lastRotation = transform.localRotation;
         transform.localPosition += offset;
+        direction = transform.localPosition;
 
         OnStatusChangeEvent += setObjSettings;
+    }
+
+    private void Update()
+    {
+        if(localStatus == Statuses.Mine) { return; }
+
+        if(direction != transform.localPosition)
+        {
+            transform.Translate(Time.deltaTime * (direction - transform.localPosition).normalized * Vector3.Distance(transform.localPosition, direction) * speed);  //Возможно это перебор (;
+        }
     }
 
     #region transform
@@ -58,7 +72,7 @@ public class InteractableObj : MonoBehaviour
     /// <returns></returns>
     public bool NeedSyncPosition()
     {
-        if (transform.localPosition != lastPosition)
+        if(lastPosition != transform.localPosition && localStatus == Statuses.Mine)
         {
             return true;
         }
@@ -100,7 +114,7 @@ public class InteractableObj : MonoBehaviour
 
     public void UpdPosition(float x, float y, float z)
     {
-        transform.localPosition = new Vector3(x, y, z);
+        direction = new Vector3(x, y, z);
         AfterPositionSync();
     }
 
@@ -145,6 +159,7 @@ public class InteractableObj : MonoBehaviour
         }
         else
         {
+            direction = transform.localPosition;    //Что бы предмет не двигался после того как его отпустили локально 
             localStatus = Statuses.Nobody;
             map.SyncCatchedStatus(GetID(), false);
         }
@@ -233,5 +248,10 @@ public class InteractableObj : MonoBehaviour
         ChangeDisplayType(displayType);
         ChangeAllMaterial(standartMaterials[materialId]);
         myMaterialId = materialId;
+    }
+
+    public void log(string str)
+    {
+        Debug.Log(str);
     }
 }

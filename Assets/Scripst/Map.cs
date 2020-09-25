@@ -25,8 +25,10 @@ public class Map : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < objs.Count; ++i)
         {
+            //if (objs[i].localStatus == Statuses.Them && objs[i].localStatus == Statuses.Nobody) { return; }
             if (objs[i].NeedSyncPosition())
             {
+                Debug.Log("Позицию отрпавил");
                 photonView.RPC("SyncPos", RpcTarget.Others, i, objs[i].transform.localPosition.x, objs[i].transform.localPosition.y, objs[i].transform.localPosition.z);
                 objs[i].AfterPositionSync();
             }
@@ -107,7 +109,14 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void SetMaterial(int idMaterial) 
     {
-        photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
+        if (NetworkManager.gameStatus == GameStatus.Online)
+        {
+            photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
+        }
+        else
+        {
+            material = (ObjMaterial)idMaterial;
+        }
     }
 
     [PunRPC] private void destroy(int id)
