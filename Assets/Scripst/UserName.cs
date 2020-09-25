@@ -50,6 +50,7 @@ public class UserName : MonoBehaviour
             PrintName(userName);
         }
         inputField.text = "";
+        keyboard.active = false;
     }
 
     public void TriggerOpenKeyboard()

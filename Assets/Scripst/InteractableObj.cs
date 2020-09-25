@@ -21,7 +21,7 @@ public class InteractableObj : MonoBehaviour
     private Vector3 lastScale;
     private Quaternion lastRotation;
     private string catherName = "";
-    private static float speed = 2f;
+    private static float speed = 10f;
 
     private Vector3 direction = Vector3.zero;
 
@@ -46,20 +46,22 @@ public class InteractableObj : MonoBehaviour
         boundingBox = gameObject.GetComponent<BoundingBox>();
 
         transform = gameObject.transform;
-        direction = transform.localPosition;
         lastPosition = transform.localPosition;
         lastScale = transform.localScale;
         lastRotation = transform.localRotation;
         transform.localPosition += offset;
+        direction = transform.localPosition;
 
         OnStatusChangeEvent += setObjSettings;
     }
 
     private void Update()
     {
-        if(localStatus == Statuses.Them && direction != transform.localPosition && Vector3.Distance(transform.localPosition, direction) > 0.01f)
+        if(localStatus == Statuses.Mine) { return; }
+
+        if(direction != transform.localPosition)
         {
-            transform.Translate(Time.deltaTime * (direction - transform.localPosition).normalized * speed);
+            transform.Translate(Time.deltaTime * (direction - transform.localPosition).normalized * Vector3.Distance(transform.localPosition, direction) * speed);  //Возможно это перебор (;
         }
     }
 
@@ -70,12 +72,7 @@ public class InteractableObj : MonoBehaviour
     /// <returns></returns>
     public bool NeedSyncPosition()
     {
-        //if (direction != lastPosition)
-        //{
-        //    return true;
-        //}
-        //return false;
-        if(localStatus == Statuses.Mine)
+        if(lastPosition != transform.localPosition && localStatus == Statuses.Mine)
         {
             return true;
         }
@@ -102,7 +99,7 @@ public class InteractableObj : MonoBehaviour
 
     public void AfterPositionSync() 
     {
-        lastPosition = direction;
+        lastPosition = transform.localPosition;
     }
 
     public void AfterRotationSync()
@@ -118,13 +115,6 @@ public class InteractableObj : MonoBehaviour
     public void UpdPosition(float x, float y, float z)
     {
         direction = new Vector3(x, y, z);
-        Debug.Log("");
-        AfterPositionSync();
-    }
-
-    public void UpdPosition()
-    {
-        direction = transform.localPosition;
         AfterPositionSync();
     }
 
@@ -169,6 +159,7 @@ public class InteractableObj : MonoBehaviour
         }
         else
         {
+            direction = transform.localPosition;    //Что бы предмет не двигался после того как его отпустили локально 
             localStatus = Statuses.Nobody;
             map.SyncCatchedStatus(GetID(), false);
         }
@@ -257,5 +248,10 @@ public class InteractableObj : MonoBehaviour
         ChangeDisplayType(displayType);
         ChangeAllMaterial(standartMaterials[materialId]);
         myMaterialId = materialId;
+    }
+
+    public void log(string str)
+    {
+        Debug.Log(str);
     }
 }

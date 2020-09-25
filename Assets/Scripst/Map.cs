@@ -30,7 +30,7 @@ public class Map : MonoBehaviourPunCallbacks
             {
                 Debug.Log("Позицию отрпавил");
                 photonView.RPC("SyncPos", RpcTarget.Others, i, objs[i].transform.localPosition.x, objs[i].transform.localPosition.y, objs[i].transform.localPosition.z);
-                objs[i].UpdPosition();
+                objs[i].AfterPositionSync();
             }
 
             if (objs[i].NeedSyncRotation())
