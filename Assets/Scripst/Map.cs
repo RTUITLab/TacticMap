@@ -12,7 +12,7 @@ public class Map : MonoBehaviourPunCallbacks
     private DisplayTypes _displayType = DisplayTypes.Model;
     private Transform transform;
     private ObjMaterial material = ObjMaterial.Gray;
-   
+
     private void Awake()
     {
         photonView = gameObject.GetComponent<PhotonView>();
@@ -21,14 +21,10 @@ public class Map : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (NetworkManager.gameStatus == GameStatus.Offline) { return; }
-
         for (int i = 0; i < objs.Count; ++i)
         {
-            //if (objs[i].localStatus == Statuses.Them && objs[i].localStatus == Statuses.Nobody) { return; }
             if (objs[i].NeedSyncPosition())
             {
-                Debug.Log("Позицию отрпавил");
                 photonView.RPC("SyncPos", RpcTarget.Others, i, objs[i].transform.localPosition.x, objs[i].transform.localPosition.y, objs[i].transform.localPosition.z);
                 objs[i].AfterPositionSync();
             }
@@ -49,19 +45,12 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void Spawn(int id)
     {
-        if (NetworkManager.gameStatus == GameStatus.Online)
-        {
-            photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
-        }
-        else
-        {
-            OnlineSpawn(id);    //Без интернета вызываеться тот же метод что и через сеть. От сюд и название.
-        }
+        photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
     }
 
     public void BtnChangeDisplayType()
     {
-        if(_displayType == DisplayTypes.Model)
+        if (_displayType == DisplayTypes.Model)
         {
             _displayType = DisplayTypes.Symbol;
         }
@@ -69,7 +58,7 @@ public class Map : MonoBehaviourPunCallbacks
         {
             _displayType = DisplayTypes.Model;
         }
-        
+
         for (int i = 0; i < objs.Count; ++i)
         {
             objs[i].ChangeDisplayType(_displayType);
@@ -91,35 +80,21 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
-        if(NetworkManager.gameStatus == GameStatus.Offline) { return; }
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
     }
 
     public void DestroyObj(int id)
     {
-        if (NetworkManager.gameStatus == GameStatus.Online)
-        {
-            photonView.RPC("destroy", RpcTarget.AllBuffered, id);
-        }
-        else
-        {
-            destroy(id);
-        }
+        photonView.RPC("destroy", RpcTarget.AllBuffered, id);
     }
 
-    public void SetMaterial(int idMaterial) 
+    public void SetMaterial(int idMaterial)
     {
-        if (NetworkManager.gameStatus == GameStatus.Online)
-        {
-            photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
-        }
-        else
-        {
-            material = (ObjMaterial)idMaterial;
-        }
+        photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
     }
 
-    [PunRPC] private void destroy(int id)
+    [PunRPC]
+    private void destroy(int id)
     {
         InteractableObj buff = objs[id];
         objs.RemoveAt(id);
@@ -132,7 +107,8 @@ public class Map : MonoBehaviourPunCallbacks
         buff.DestroyObject();
     }
 
-    [PunRPC] private void OnlineSpawn(int id)
+    [PunRPC]
+    private void OnlineSpawn(int id)
     {
         GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, transform.rotation, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
@@ -140,27 +116,32 @@ public class Map : MonoBehaviourPunCallbacks
         objs.Add(interactableObj);
     }
 
-    [PunRPC] private void SyncPos(int id, float x, float y, float z)
+    [PunRPC]
+    private void SyncPos(int id, float x, float y, float z)
     {
         objs[id].UpdPosition(x, y, z);
     }
 
-    [PunRPC] private void SyncRot(int id, float x, float y, float z, float w)
+    [PunRPC]
+    private void SyncRot(int id, float x, float y, float z, float w)
     {
         objs[id].UpdRotation(x, y, z, w);
     }
 
-    [PunRPC] private void SyncScale(int id, float x, float y, float z)
+    [PunRPC]
+    private void SyncScale(int id, float x, float y, float z)
     {
         objs[id].UpdScale(x, y, z);
     }
 
-    [PunRPC] private void SyncStatus(int id, bool status, string name)
+    [PunRPC]
+    private void SyncStatus(int id, bool status, string name)
     {
         objs[id].CatchObj(status, name);
     }
 
-    [PunRPC] private void SyncMaterial(int idMaterial)
+    [PunRPC]
+    private void SyncMaterial(int idMaterial)
     {
         material = (ObjMaterial)idMaterial;
     }
