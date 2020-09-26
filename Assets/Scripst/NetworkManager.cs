@@ -8,23 +8,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Map map;
     [SerializeField] private GameObject[] inGame;   //Игровое поле и другие обьекты доступные только во время игры.
     [SerializeField] private GameObject menuUI;     //UI который не должен быть виден во время игры.
-    public static GameStatus gameStatus = GameStatus.Offline;
 
     public void StartGame(bool isOnline)
     {
+        PhotonNetwork.GameVersion = version;
+        PhotonNetwork.NickName = UserName.userName;
         if (isOnline)
         {
-            PhotonNetwork.GameVersion = version;
-            PhotonNetwork.NickName = UserName.userName;
             PhotonNetwork.ConnectUsingSettings();
-            menuUI.SetActive(false);
         }
         else
         {
-            gameStatus = GameStatus.Offline;
-            SetObjActive(inGame, true);
-            menuUI.SetActive(false);
+            PhotonNetwork.OfflineMode = true;
         }
+        menuUI.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -36,7 +33,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Вы вошли в комнату");
         SetObjActive(inGame, true);
-        gameStatus = GameStatus.Online;
     }
 
     public void CreateRoom()

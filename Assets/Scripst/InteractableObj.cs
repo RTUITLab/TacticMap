@@ -57,9 +57,9 @@ public class InteractableObj : MonoBehaviour
 
     private void Update()
     {
-        if(localStatus == Statuses.Mine) { return; }
+        if (localStatus == Statuses.Mine) { return; }
 
-        if(direction != transform.localPosition)
+        if (direction != transform.localPosition)
         {
             transform.Translate(Time.deltaTime * (direction - transform.localPosition).normalized * Vector3.Distance(transform.localPosition, direction) * speed);  //Возможно это перебор (;
         }
@@ -72,7 +72,7 @@ public class InteractableObj : MonoBehaviour
     /// <returns></returns>
     public bool NeedSyncPosition()
     {
-        if(lastPosition != transform.localPosition && localStatus == Statuses.Mine)
+        if (lastPosition != transform.localPosition && localStatus == Statuses.Mine)
         {
             return true;
         }
@@ -97,7 +97,7 @@ public class InteractableObj : MonoBehaviour
         return false;
     }
 
-    public void AfterPositionSync() 
+    public void AfterPositionSync()
     {
         lastPosition = transform.localPosition;
     }
@@ -184,8 +184,7 @@ public class InteractableObj : MonoBehaviour
 
     private void setObjSettings()
     {
-        if(NetworkManager.gameStatus == GameStatus.Offline) { return; }
-        if(localStatus == Statuses.Mine)
+        if (localStatus == Statuses.Mine)
         {
             map.SyncCatchedStatus(GetID(), true);
             catherName = "";
@@ -216,7 +215,7 @@ public class InteractableObj : MonoBehaviour
 
     public void OnTriggerStay(Collider other)   //Мусорка
     {
-        if(other.tag == "recycle" && (localStatus == Statuses.Nobody && (PhotonNetwork.IsMasterClient || NetworkManager.gameStatus == GameStatus.Offline)))
+        if (other.tag == "recycle" && (localStatus == Statuses.Nobody && PhotonNetwork.IsMasterClient))
         {
             map.DestroyObj(GetID());
         }
@@ -234,7 +233,7 @@ public class InteractableObj : MonoBehaviour
             model.SetActive(true);
             symbol.SetActive(false);
         }
-        else if(type == DisplayTypes.Symbol)
+        else if (type == DisplayTypes.Symbol)
         {
             model.SetActive(false);
             symbol.SetActive(true);
