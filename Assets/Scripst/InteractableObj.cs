@@ -6,6 +6,9 @@ using UnityEngine.Events;
 
 public class InteractableObj : MonoBehaviour
 {
+    [HideInInspector] public UnityEvent OnStatusChangeEvent;
+    [HideInInspector] public Transform transform;
+
     [SerializeField] private Vector3 offset;
     [SerializeField] private GameObject symbol; //Условное обозначение на топографической карте.
     [SerializeField] private GameObject model;
@@ -17,15 +20,12 @@ public class InteractableObj : MonoBehaviour
     private BoundingBox boundingBox;
     private int ID;
     private Map map;
-    [HideInInspector] public Transform transform;
     private Vector3 lastPosition;
     private Vector3 lastScale;
     private Quaternion lastRotation;
     private string catherName = "";
     private static float speed = 10f;
-
     private Vector3 direction = Vector3.zero;
-    private UnityEvent OnStatusChangeEvent;
 
     private Statuses _localStatus = Statuses.Nobody;
     public Statuses localStatus
@@ -34,12 +34,13 @@ public class InteractableObj : MonoBehaviour
         set
         {
             _localStatus = value;
-            setObjSettings();
+            OnStatusChangeEvent.Invoke();
         }
     }
 
     void Awake()
     {
+        OnStatusChangeEvent.AddListener(setObjSettings);
         objectManipulator = gameObject.GetComponent<ObjectManipulator>();
         boundingBox = gameObject.GetComponent<BoundingBox>();
 
