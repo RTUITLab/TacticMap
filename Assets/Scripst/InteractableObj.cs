@@ -2,6 +2,7 @@
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InteractableObj : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class InteractableObj : MonoBehaviour
     private static float speed = 10f;
 
     private Vector3 direction = Vector3.zero;
+    private UnityEvent OnStatusChangeEvent;
 
     private Statuses _localStatus = Statuses.Nobody;
     public Statuses localStatus
@@ -32,13 +34,9 @@ public class InteractableObj : MonoBehaviour
         set
         {
             _localStatus = value;
-            OnStatusChangeEvent();
+            setObjSettings();
         }
     }
-
-
-    public delegate void Action();
-    public event Action OnStatusChangeEvent;
 
     void Awake()
     {
@@ -51,8 +49,6 @@ public class InteractableObj : MonoBehaviour
         lastRotation = transform.localRotation;
         transform.localPosition += offset;
         direction = transform.localPosition;
-
-        OnStatusChangeEvent += setObjSettings;
     }
 
     private void Update()
