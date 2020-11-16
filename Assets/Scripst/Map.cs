@@ -83,11 +83,6 @@ public class Map : MonoBehaviourPunCallbacks
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
     }
 
-    public void DestroyObj(int id)
-    {
-        photonView.RPC("destroy", RpcTarget.AllBuffered, id);
-    }
-
     public void SetMaterial(int idMaterial)
     {
         photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
@@ -113,6 +108,8 @@ public class Map : MonoBehaviourPunCallbacks
         GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, transform.rotation, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
         interactableObj.OnSpawn(objs.Count, (int)material, this, _displayType);
+        interactableObj.OnDestroy.AddListener((num) => photonView.RPC("destroy", RpcTarget.AllBuffered, num));
+
         objs.Add(interactableObj);
     }
 

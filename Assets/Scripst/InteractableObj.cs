@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class InteractableObj : MonoBehaviour
 {
     [HideInInspector] public UnityEvent OnStatusChangeEvent;
+    [HideInInspector] public DestroyEvent OnDestroy;
     [HideInInspector] public Transform transform;
 
     [SerializeField] private Vector3 offset;
@@ -214,7 +215,7 @@ public class InteractableObj : MonoBehaviour
     {
         if (other.tag == "recycle" && (localStatus == Statuses.Nobody && PhotonNetwork.IsMasterClient))
         {
-            map.DestroyObj(GetID());
+            OnDestroy.Invoke(GetID());
         }
     }
 
@@ -250,4 +251,10 @@ public class InteractableObj : MonoBehaviour
     {
         Debug.Log(str);
     }
+}
+
+[System.Serializable]
+public class DestroyEvent : UnityEvent<int>
+{
+    /* так будет всё работать (; */
 }
