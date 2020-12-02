@@ -2,9 +2,17 @@
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+
+[RequireComponent(typeof(BoundingBox))]
+[RequireComponent(typeof(ObjectManipulator))]
 
 public class InteractableObj : MonoBehaviour
 {
+    [HideInInspector] public UnityEvent OnStatusChangeEvent;
+    [HideInInspector] public DestroyEvent OnDestroy;
+    [HideInInspector] public Transform transform;
+
     [SerializeField] private Vector3 offset;
     [SerializeField] private GameObject symbol; //Условное обозначение на топографической карте.
     [SerializeField] private GameObject model;
@@ -14,16 +22,19 @@ public class InteractableObj : MonoBehaviour
     private int myMaterialId;
     private ObjectManipulator objectManipulator;
     private BoundingBox boundingBox;
-    private int ID;
     private Map map;
-    [HideInInspector] public Transform transform;
     private Vector3 lastPosition;
     private Vector3 lastScale;
     private Quaternion lastRotation;
     private string catherName = "";
     private static float speed = 10f;
-
     private Vector3 direction = Vector3.zero;
+
+    public int id
+    {
+        private set;
+        get;
+    }
 
     private Statuses _localStatus = Statuses.Nobody;
     public Statuses localStatus
@@ -32,18 +43,22 @@ public class InteractableObj : MonoBehaviour
         set
         {
             _localStatus = value;
-            OnStatusChangeEvent();
+            OnStatusChangeEvent.Invoke();
         }
     }
 
-
-    public delegate void Action();
-    public event Action OnStatusChangeEvent;
-
     void Awake()
     {
+        OnStatusChangeEvent.AddListener(setObjSettings);
         objectManipulator = gameObject.GetComponent<ObjectManipulator>();
         boundingBox = gameObject.GetComponent<BoundingBox>();
+
+        boundingBox.RotateStarted.AddListener(Grab);
+        boundingBox.RotateStopped.AddListener(Release);
+        boundingBox.ScaleStarted.AddListener(Grab);
+        boundingBox.ScaleStopped.AddListener(Release);
+        objectManipulator.OnManipulationStarted.AddListener((data) => Grab());
+        objectManipulator.OnManipulationEnded.AddListener((data) => Release());
 
         transform = gameObject.transform;
         lastPosition = transform.localPosition;
@@ -51,8 +66,6 @@ public class InteractableObj : MonoBehaviour
         lastRotation = transform.localRotation;
         transform.localPosition += offset;
         direction = transform.localPosition;
-
-        OnStatusChangeEvent += setObjSettings;
     }
 
     private void Update()
@@ -63,6 +76,28 @@ public class InteractableObj : MonoBehaviour
         {
             transform.Translate(Time.deltaTime * (direction - transform.localPosition).normalized * Vector3.Distance(transform.localPosition, direction) * speed);  //Возможно это перебор (;
         }
+    }
+
+    public void UpdId(int id)
+    {
+        this.id = id;
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
+
+    public void Grab()
+    {
+        localStatus = Statuses.Mine;
+    }
+
+    public void Release()
+    {
+        direction = transform.localPosition;    //Что бы предмет не двигался после того как его отпустили локально 
+        localStatus = Statuses.Nobody;
+        map.SyncCatchedStatus(id, false);
     }
 
     #region transform
@@ -132,38 +167,6 @@ public class InteractableObj : MonoBehaviour
 
     #endregion transform
 
-    public void SetID(int objNum)
-    {
-        this.ID = objNum;
-    }
-
-    public int GetID()
-    {
-        return ID;
-    }
-
-    public void DestroyObject()
-    {
-        Destroy(gameObject);
-    }
-
-    /// <summary>
-    /// Called only when a manipulation starts (true) or stops (false).
-    /// </summary>
-    /// <param name="catchedStatus"></param>
-    public void LocalCatch(bool catchedStatus)
-    {
-        if (catchedStatus)
-        {
-            localStatus = Statuses.Mine;
-        }
-        else
-        {
-            direction = transform.localPosition;    //Что бы предмет не двигался после того как его отпустили локально 
-            localStatus = Statuses.Nobody;
-            map.SyncCatchedStatus(GetID(), false);
-        }
-    }
 
     /// <summary>
     /// if someone grabs an object, then comes here TRUE. If the object is released, then comes FALSE. Called outside (photon).
@@ -186,7 +189,7 @@ public class InteractableObj : MonoBehaviour
     {
         if (localStatus == Statuses.Mine)
         {
-            map.SyncCatchedStatus(GetID(), true);
+            map.SyncCatchedStatus(id, true);
             catherName = "";
         }
         else if (localStatus == Statuses.Them)
@@ -217,7 +220,7 @@ public class InteractableObj : MonoBehaviour
     {
         if (other.tag == "recycle" && (localStatus == Statuses.Nobody && PhotonNetwork.IsMasterClient))
         {
-            map.DestroyObj(GetID());
+            OnDestroy.Invoke(id);
         }
     }
 
@@ -242,7 +245,7 @@ public class InteractableObj : MonoBehaviour
 
     public void OnSpawn(int id, int materialId, Map map, DisplayTypes displayType)
     {
-        SetID(id);
+        this.id = id;
         this.map = map;
         ChangeDisplayType(displayType);
         ChangeAllMaterial(standartMaterials[materialId]);
@@ -253,4 +256,10 @@ public class InteractableObj : MonoBehaviour
     {
         Debug.Log(str);
     }
+}
+
+[System.Serializable]
+public class DestroyEvent : UnityEvent<int>
+{
+    /* так будет всё работать (; */
 }

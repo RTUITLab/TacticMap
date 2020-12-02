@@ -109,60 +109,16 @@ MonoBehaviour:
   hideElementsInInspector: 1
   RotateStarted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 774419919452489850}
-        m_MethodName: LocalCatch
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   RotateStopped:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 774419919452489850}
-        m_MethodName: LocalCatch
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   ScaleStarted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 774419919452489850}
-        m_MethodName: LocalCatch
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   ScaleStopped:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 774419919452489850}
-        m_MethodName: LocalCatch
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &826928613890427559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,32 +157,10 @@ MonoBehaviour:
   scaleLerpTime: 0
   onManipulationStarted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 774419919452489850}
-        m_MethodName: LocalCatch
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   onManipulationEnded:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 774419919452489850}
-        m_MethodName: LocalCatch
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onHoverEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -279,6 +213,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13651720db1e78642a0a940e1dcaf4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnStatusChangeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestroy:
+    m_PersistentCalls:
+      m_Calls: []
+  transform: {fileID: 0}
   offset: {x: 0, y: 0, z: -0.015}
   symbol: {fileID: 3817011623815532216}
   model: {fileID: 7831756226335584691}
@@ -290,7 +231,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
   - {fileID: 2100000, guid: a5dec2ae0831b6d4fbd931f8b5d9abcf, type: 2}
   - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
-  transform: {fileID: 0}
 --- !u!1 &1307353219448835916
 GameObject:
   m_ObjectHideFlags: 0
