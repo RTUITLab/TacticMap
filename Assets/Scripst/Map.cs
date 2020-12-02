@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -96,7 +96,7 @@ public class Map : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < objs.Count; ++i)
         {
-            objs[i].SetID(i);
+            objs[i].UpdId(i);
         }
 
         buff.DestroyObject();
