@@ -4,6 +4,8 @@ using Photon.Pun;
 using Photon.Realtime;
 
 [RequireComponent(typeof(PhotonView))]
+[AddComponentMenu("TacticMap/Map")]
+
 public class Map : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject[] prefabs;

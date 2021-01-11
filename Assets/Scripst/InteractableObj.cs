@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(BoundingBox))]
 [RequireComponent(typeof(ObjectManipulator))]
+[AddComponentMenu("TacticMap/Interactable Object")]
 
 public class InteractableObj : MonoBehaviour
 {
