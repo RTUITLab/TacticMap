@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using System.Security.Policy;
+using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
 [RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(ManipulationHandler))]     //Устарело.
+[RequireComponent(typeof(BoundingBox))]
 [AddComponentMenu("TacticMap/Map")]
 
 public class Map : MonoBehaviourPunCallbacks
@@ -14,11 +18,22 @@ public class Map : MonoBehaviourPunCallbacks
     private DisplayTypes _displayType = DisplayTypes.Model;
     private Transform transform;
     private ObjMaterial material = ObjMaterial.Gray;
+    private ManipulationHandler manipulationHandler;
+    private BoundingBox bounding;
 
     private void Awake()
     {
         photonView = gameObject.GetComponent<PhotonView>();
+        manipulationHandler = gameObject.GetComponent<ManipulationHandler>();
+        bounding = gameObject.GetComponent<BoundingBox>();
         transform = gameObject.transform;
+
+        manipulationHandler.OnManipulationStarted.AddListener((data) => Grab());
+        manipulationHandler.OnManipulationEnded.AddListener((data) => Release());
+        bounding.RotateStarted.AddListener(Grab);
+        bounding.RotateStopped.AddListener(Release);
+        bounding.ScaleStarted.AddListener(Grab);
+        bounding.ScaleStopped.AddListener(Release);
     }
 
     void Update()
@@ -80,6 +95,22 @@ public class Map : MonoBehaviourPunCallbacks
         }
     }
 
+    private void SetGrabable(Statuses statuse)
+    {
+        bool grabable = false;
+        if (statuse == Statuses.Mine)
+        {
+            ;
+        }
+        else if (statuse == Statuses.Nobody)
+        {
+            grabable = true;
+        }
+
+        bounding.enabled = grabable;
+        manipulationHandler.enabled = grabable;
+    }
+
     public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
@@ -88,6 +119,24 @@ public class Map : MonoBehaviourPunCallbacks
     public void SetMaterial(int idMaterial)
     {
         photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
+    }
+
+    private void Grab()
+    {
+        UpdObjGrabable(false);
+    }
+
+    private void Release()
+    {
+        UpdObjGrabable(true);
+    }
+
+    private void UpdObjGrabable(bool status)
+    {
+        for (int i = 0; i < objs.Count; ++i)
+        {
+            objs[i].SetGrabable(status);
+        }
     }
 
     [PunRPC]
@@ -111,7 +160,7 @@ public class Map : MonoBehaviourPunCallbacks
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
         interactableObj.OnSpawn(objs.Count, (int)material, this, _displayType);
         interactableObj.OnDestroy.AddListener((num) => photonView.RPC("destroy", RpcTarget.AllBuffered, num));
-
+        interactableObj.OnCatchStatusChange.AddListener((status) => SetGrabable(status));
         objs.Add(interactableObj);
     }
 

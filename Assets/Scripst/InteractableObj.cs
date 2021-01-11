@@ -12,6 +12,7 @@ public class InteractableObj : MonoBehaviour
 {
     [HideInInspector] public UnityEvent OnStatusChangeEvent;
     [HideInInspector] public DestroyEvent OnDestroy;
+    [HideInInspector] public CatchEvent OnCatchStatusChange;
     [HideInInspector] public Transform transform;
 
     [SerializeField] private Vector3 offset;
@@ -92,6 +93,7 @@ public class InteractableObj : MonoBehaviour
     public void Grab()
     {
         localStatus = Statuses.Mine;
+        OnCatchStatusChange.Invoke(localStatus);
     }
 
     public void Release()
@@ -99,6 +101,7 @@ public class InteractableObj : MonoBehaviour
         direction = transform.localPosition;    //Что бы предмет не двигался после того как его отпустили локально 
         localStatus = Statuses.Nobody;
         map.SyncCatchedStatus(id, false);
+        OnCatchStatusChange.Invoke(localStatus);
     }
 
     #region transform
@@ -186,6 +189,12 @@ public class InteractableObj : MonoBehaviour
         }
     }
 
+    public void SetGrabable(bool status)
+    {
+        objectManipulator.enabled = status;
+        boundingBox.enabled = status;
+    }
+
     private void setObjSettings()
     {
         if (localStatus == Statuses.Mine)
@@ -261,6 +270,12 @@ public class InteractableObj : MonoBehaviour
 
 [System.Serializable]
 public class DestroyEvent : UnityEvent<int>
+{
+    /* так будет всё работать (; */
+}
+
+[System.Serializable]
+public class CatchEvent : UnityEvent<Statuses>
 {
     /* так будет всё работать (; */
 }
