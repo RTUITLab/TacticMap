@@ -20,6 +20,7 @@ public class Map : MonoBehaviourPunCallbacks
     private ObjMaterial material = ObjMaterial.Gray;
     private ManipulationHandler manipulationHandler;
     private BoundingBox bounding;
+    private bool grabbed = false;
 
     private void Awake()
     {
@@ -124,11 +125,13 @@ public class Map : MonoBehaviourPunCallbacks
     private void Grab()
     {
         UpdObjGrabable(false);
+        grabbed = true;
     }
 
     private void Release()
     {
         UpdObjGrabable(true);
+        grabbed = false;
     }
 
     private void UpdObjGrabable(bool status)
@@ -158,7 +161,7 @@ public class Map : MonoBehaviourPunCallbacks
     {
         GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, transform.rotation, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
-        interactableObj.OnSpawn(objs.Count, (int)material, this, _displayType);
+        interactableObj.OnSpawn(objs.Count, (int)material, this, _displayType, !grabbed);
         interactableObj.OnDestroy.AddListener((num) => photonView.RPC("destroy", RpcTarget.AllBuffered, num));
         interactableObj.OnCatchStatusChange.AddListener((status) => SetGrabable(status));
         objs.Add(interactableObj);
