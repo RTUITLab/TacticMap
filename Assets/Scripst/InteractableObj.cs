@@ -21,6 +21,7 @@ public class InteractableObj : MonoBehaviour
     [SerializeField] private MeshRenderer[] coloredObjs;
     [SerializeField] private TextMeshProUGUI textMesh;
     [SerializeField] private Material[] standartMaterials;
+    private bool canGrab = true;
     private int myMaterialId;
     private ObjectManipulator objectManipulator;
     private BoundingBox boundingBox;
@@ -191,8 +192,12 @@ public class InteractableObj : MonoBehaviour
 
     public void SetGrabable(bool status)
     {
-        objectManipulator.enabled = status;
-        boundingBox.enabled = status;
+        canGrab = status;
+        if(localStatus != Statuses.Them)
+        {
+            objectManipulator.enabled = status;
+            boundingBox.enabled = status;
+        }
     }
 
     private void setObjSettings()
@@ -211,8 +216,11 @@ public class InteractableObj : MonoBehaviour
         else if (localStatus == Statuses.Nobody)
         {
             ChangeAllMaterial(standartMaterials[myMaterialId]);
-            boundingBox.enabled = true;
-            objectManipulator.enabled = true;
+            if (canGrab)
+            {
+                boundingBox.enabled = true;
+                objectManipulator.enabled = true;
+            }
             catherName = "";
         }
         textMesh.text = catherName;
@@ -253,8 +261,9 @@ public class InteractableObj : MonoBehaviour
         }
     }
 
-    public void OnSpawn(int id, int materialId, Map map, DisplayTypes displayType)
+    public void OnSpawn(int id, int materialId, Map map, DisplayTypes displayType, bool canGrab)
     {
+        this.canGrab = canGrab;
         this.id = id;
         this.map = map;
         ChangeDisplayType(displayType);
