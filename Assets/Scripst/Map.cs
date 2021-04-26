@@ -18,6 +18,7 @@ public class Map : MonoBehaviourPunCallbacks
     private DisplayTypes _displayType = DisplayTypes.Model;
     private Transform transform;
     private ObjMaterial material = ObjMaterial.Gray;
+    private int modelID = 0;
     private ManipulationHandler manipulationHandler;
     private BoundingBox bounding;
     private bool grabbed = false;
@@ -59,11 +60,6 @@ public class Map : MonoBehaviourPunCallbacks
                 objs[i].AfterScaleSync();
             }
         }
-    }
-
-    public void Spawn(int id)
-    {
-        photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, id);
     }
 
     public void BtnChangeDisplayType()
@@ -117,10 +113,23 @@ public class Map : MonoBehaviourPunCallbacks
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
     }
 
-    public void SetMaterial(int idMaterial)
+#region Spawn button
+public void SetMaterial(int idMaterial)
     {
-        photonView.RPC("SyncMaterial", RpcTarget.AllBuffered, idMaterial);
+        material = (ObjMaterial)idMaterial;
     }
+
+    public void SetModel(int modelID)
+    {
+        this.modelID = modelID;
+    }
+
+    public void Spawn()
+    {
+        photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, modelID, (int)material);
+    }
+    
+#endregion
 
     private void Grab()
     {
@@ -157,11 +166,11 @@ public class Map : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void OnlineSpawn(int id)
+    private void OnlineSpawn(int modelID, int materialID)
     {
-        GameObject newObj = Instantiate(prefabs[id], gameObject.transform.position, transform.rotation, gameObject.transform);
+        GameObject newObj = Instantiate(prefabs[modelID], gameObject.transform.position, transform.rotation, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
-        interactableObj.OnSpawn(objs.Count, (int)material, this, _displayType, !grabbed);
+        interactableObj.OnSpawn(objs.Count, materialID, this, _displayType, !grabbed);
         interactableObj.OnDestroy.AddListener((num) => photonView.RPC("destroy", RpcTarget.AllBuffered, num));
         interactableObj.OnCatchStatusChange.AddListener((status) => SetGrabable(status));
         objs.Add(interactableObj);
@@ -189,11 +198,5 @@ public class Map : MonoBehaviourPunCallbacks
     private void SyncStatus(int id, bool status, string name)
     {
         objs[id].CatchObj(status, name);
-    }
-
-    [PunRPC]
-    private void SyncMaterial(int idMaterial)
-    {
-        material = (ObjMaterial)idMaterial;
     }
 }
