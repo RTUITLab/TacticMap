@@ -18,7 +18,7 @@ Project for Microsoft Hololens Mixed Reality headset with multi-user experience.
 - Download [Photon Pun 2][photon] from asset store;
 - Configurete Photon settings;
 > `Windows > Photon Unity Networking > Highlight Server Settings` (Ctrl + Shift + Alt + P).
-> If the photon server will be used, then you need to enter App id realtime and check the `Use name server` box. Else uncheck box and insert ip into `Server` and `Port`. Default port value: 5055.
+> If the photon server will be used, then you need to enter `App Id PUN` and check the `Use Name Server` box. Else uncheck box and insert ip into `Server` and `Port`. Default port value: 5055.
 - Bild Visual Studio solution;
 - Deploy on Hololens.
 
