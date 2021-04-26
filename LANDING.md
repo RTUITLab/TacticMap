@@ -3,6 +3,7 @@ TacticMap
 
 ---
 # Description
+    Проект для гарнитуры смешанной реальности Microsoft Hololens с возможностью многопользовательского взаимодействия.
 
 ---
 # Images
@@ -12,12 +13,14 @@ TacticMap
 
 ---
 # Tags
-* AR
+* MR
 
 ---
 # Tech
 * Unity
+* C#
 * Microsoft Mixed Reality
+* Photon
 
 ---
 # Developers
