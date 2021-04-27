@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cRQrk3iFvlBP9Ql/mpoaTrlF02ZAryMhuh42QYvuOB7VJQS3AqCPpnjEK711ne7npfaVrM0pFiEEfrdFaqjqmg==",
+  "dgSpecHash": "y51kZyTOAYs02HiHoCocUlv8YCYx+RKvdQgbwUj5ibwSF7O+URAouVcm+0hWNLnDtj2f5Av4ZMnMTU0zZFOVRg==",
   "success": true,
-  "projectFilePath": "E:\\GITproject\\TacticMap\\Assets\\HoloMapOnline.Dependencies.msb4u.csproj",
+  "projectFilePath": "X:\\GIT_Project\\TacticMap\\Assets\\HoloMapOnline.Dependencies.msb4u.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\D_o_r_G\\.nuget\\packages\\msbuildforunity\\0.9.1-123842\\msbuildforunity.0.9.1-123842.nupkg.sha512"
   ],

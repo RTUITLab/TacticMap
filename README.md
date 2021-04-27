@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Unity Version](https://img.shields.io/badge/unity-2018.4.21-blue.svg)][unity]
+[![Unity Version](https://img.shields.io/badge/unity-2019.4.25-blue.svg)][unity]
 [![MRTK Version](https://img.shields.io/badge/Microsoft-MRTK%202.4.0-green)][mrtk]
 [![GitHub Issues](https://img.shields.io/github/issues/RTUITLab/TacticMap.svg)](https://github.com/RTUITLab/TacticMap/issues)
 
@@ -24,16 +24,20 @@ Project for Microsoft Hololens Mixed Reality headset with multi-user experience.
 
 ---
 ### Photon server Instructions: ###
-- Get ur server [license here](https://dashboard.photonengine.com/en-US/selfhosted);
-- Download [server here](https://www.photonengine.com/en-us/sdks#server-sdkserverserver);
+- Get ur server [license here][photon license];
+- Download [server here][photon server];
 - Move license to `../deploy/bin_Win64/`;
 - Open PhotonControl.exe;
 - Start ur Photon On Premises Server.
 
 [photon]:https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
+[photon license]:https://dashboard.photonengine.com/en-US/selfhosted
+[photon server]:https://www.photonengine.com/en-us/sdks#server-sdkserverserver
 [unity]:https://unity3d.com/get-unity/download
 [mrtk]:https://github.com/microsoft/MixedRealityToolkit-Unity/releases/tag/v2.4.0
 
 ---
 ### Troubleshooting: ###
 > If you get "Windows Mobile" error while building your project: Open `HoloMapOnline > HoloMapOnline.vcxproj` file in the solution folder. At the end of the file, cut out the mention of Windows Mobile.
+
+> If you get "Failed to connect to server after testing each known IP" error. Remove all Win 10 SDK after 10.0.18362.

@@ -51,25 +51,28 @@
   },
   "packageFolders": {
     "C:\\Users\\D_o_r_G\\.nuget\\packages\\": {},
-    "E:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "E:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\GITproject\\TacticMap\\Assets\\HoloMapOnline.Dependencies.msb4u.csproj",
+      "projectUniqueName": "X:\\GIT_Project\\TacticMap\\Assets\\HoloMapOnline.Dependencies.msb4u.csproj",
       "projectName": "HoloMapOnline.Dependencies.msb4u",
-      "projectPath": "E:\\GITproject\\TacticMap\\Assets\\HoloMapOnline.Dependencies.msb4u.csproj",
+      "projectPath": "X:\\GIT_Project\\TacticMap\\Assets\\HoloMapOnline.Dependencies.msb4u.csproj",
       "packagesPath": "C:\\Users\\D_o_r_G\\.nuget\\packages\\",
-      "outputPath": "E:\\GITproject\\TacticMap\\MSBuild\\Output\\obj\\Dependencies\\",
+      "outputPath": "X:\\GIT_Project\\TacticMap\\MSBuild\\Output\\obj\\Dependencies\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "E:\\Microsoft\\Xamarin\\NuGet\\",
+        "E:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "E:\\GITproject\\TacticMap\\Assets\\NuGet.Config",
+        "X:\\GIT_Project\\TacticMap\\Assets\\NuGet.Config",
         "C:\\Users\\D_o_r_G\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -83,6 +86,7 @@
       },
       "frameworks": {
         "net46": {
+          "targetAlias": "net46",
           "projectReferences": {}
         }
       },
@@ -94,6 +98,7 @@
     },
     "frameworks": {
       "net46": {
+        "targetAlias": "net46",
         "dependencies": {
           "MSBuildForUnity": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers",
@@ -102,7 +107,7 @@
             "version": "[0.9.1-*, 0.9.1]"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }
