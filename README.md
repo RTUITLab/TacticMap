@@ -17,7 +17,9 @@ Project for Microsoft Hololens Mixed Reality headset with multi-user experience.
 </p>
 
 ---
-## Instruction: ##
+# Instructions: #
+
+### Unity application Instructions: ###
 - Open the project in Unity; 
 - Download [Photon Pun 2][photon] from asset store;
 - Configurete Photon settings;
@@ -34,14 +36,14 @@ Project for Microsoft Hololens Mixed Reality headset with multi-user experience.
 - Open PhotonControl.exe;
 - Start ur Photon On Premises Server.
 
+---
+> If you get "Windows Mobile" error while building your project: Open `HoloMapOnline > HoloMapOnline.vcxproj` file in the solution folder. At the end of the file, cut out the mention of Windows Mobile.
+
+> If you get "Failed to connect to server after testing each known IP" error. Remove all Win 10 SDK after 10.0.18362 or change unity to a newer LTS version.
+
 [issues]:https://github.com/RTUITLab/TacticMap/issues
 [photon]:https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
 [photon license]:https://dashboard.photonengine.com/en-US/selfhosted
 [photon server]:https://www.photonengine.com/en-us/sdks#server-sdkserverserver
 [unity]:https://unity3d.com/get-unity/download
 [mrtk]:https://github.com/microsoft/MixedRealityToolkit-Unity/releases/tag/v2.4.0
-
----
-> If you get "Windows Mobile" error while building your project: Open `HoloMapOnline > HoloMapOnline.vcxproj` file in the solution folder. At the end of the file, cut out the mention of Windows Mobile.
-
-> If you get "Failed to connect to server after testing each known IP" error. Remove all Win 10 SDK after 10.0.18362 or change unity to a newer LTS version.
