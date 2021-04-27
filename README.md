@@ -1,3 +1,7 @@
+<p align="center">
+ <img  height=300px style="border-radius: 120px;" src="landing/hololens.png" alt="Hololens"></a>
+</p>
+
 <h1 align="center">TacticMap</h3>
 
 <div align="center">
