@@ -7,7 +7,7 @@
 <div align="center">
 
 [![Unity Version](https://img.shields.io/badge/unity-2019.4.25-blue.svg)][unity]
-[![MRTK Version](https://img.shields.io/badge/Microsoft-MRTK%202.4.0-green)][mrtk]
+[![MRTK Version](https://img.shields.io/badge/Microsoft-MRTK%202.6.1-green)][mrtk]
 [![GitHub Issues](https://img.shields.io/github/issues/RTUITLab/TacticMap.svg)][issues]
 
 </div>
@@ -46,4 +46,4 @@ Project for Microsoft Hololens Mixed Reality headset with multi-user experience.
 [photon license]:https://dashboard.photonengine.com/en-US/selfhosted
 [photon server]:https://www.photonengine.com/en-us/sdks#server-sdkserverserver
 [unity]:https://unity3d.com/get-unity/download
-[mrtk]:https://github.com/microsoft/MixedRealityToolkit-Unity/releases/tag/v2.4.0
+[mrtk]:https://github.com/microsoft/MixedRealityToolkit-Unity/releases/tag/v2.6.1

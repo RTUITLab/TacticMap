@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-using System.Security.Policy;
+﻿using System.Collections.Generic;
 using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.UI.BoundsControl;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
 [RequireComponent(typeof(PhotonView))]
-[RequireComponent(typeof(ManipulationHandler))]     //Устарело.
-[RequireComponent(typeof(BoundingBox))]
+[RequireComponent(typeof(ObjectManipulator))]
+[RequireComponent(typeof(BoundsControl))]
 [AddComponentMenu("TacticMap/Map")]
 
 public class Map : MonoBehaviourPunCallbacks
@@ -19,15 +19,15 @@ public class Map : MonoBehaviourPunCallbacks
     private Transform transform;
     private ObjMaterial material = ObjMaterial.Gray;
     private int modelID = 0;
-    private ManipulationHandler manipulationHandler;
-    private BoundingBox bounding;
+    private ObjectManipulator manipulationHandler;
+    private BoundsControl bounding;
     private bool grabbed = false;
 
     private void Awake()
     {
         photonView = gameObject.GetComponent<PhotonView>();
-        manipulationHandler = gameObject.GetComponent<ManipulationHandler>();
-        bounding = gameObject.GetComponent<BoundingBox>();
+        manipulationHandler = gameObject.GetComponent<ObjectManipulator>();
+        bounding = gameObject.GetComponent<BoundsControl>();
         transform = gameObject.transform;
 
         manipulationHandler.OnManipulationStarted.AddListener((data) => Grab());
@@ -113,8 +113,8 @@ public class Map : MonoBehaviourPunCallbacks
         photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
     }
 
-#region Spawn button
-public void SetMaterial(int idMaterial)
+    #region Spawn button
+    public void SetMaterial(int idMaterial)
     {
         material = (ObjMaterial)idMaterial;
     }
@@ -128,8 +128,8 @@ public void SetMaterial(int idMaterial)
     {
         photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, modelID, (int)material);
     }
-    
-#endregion
+
+    #endregion
 
     private void Grab()
     {
