@@ -127,7 +127,8 @@ MonoBehaviour:
   rotateLerpTime: 0
   scaleLerpTime: 0
   enableConstraints: 1
-  constraintsManager: {fileID: 1145676165893770291}
+  constraintsManager: {fileID: 2237090130028857521, guid: 8482ac6377214a34b96fb9d087de4147,
+    type: 3}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:
@@ -209,9 +210,11 @@ MonoBehaviour:
   uniformScaleOnFlattenedAxis: 1
   boxPadding: {x: 0, y: 0, z: 0}
   boxDisplayConfiguration: {fileID: 0}
-  linksConfiguration: {fileID: 0}
-  scaleHandlesConfiguration: {fileID: 0}
-  rotationHandlesConfiguration: {fileID: 0}
+  linksConfiguration: {fileID: 11400000, guid: 374d1e85c2384d24a917db14af2741c7, type: 2}
+  scaleHandlesConfiguration: {fileID: 11400000, guid: 8f13cdb6fd87fca4ba3015abb8ba3990,
+    type: 2}
+  rotationHandlesConfiguration: {fileID: 11400000, guid: 27ffc9f4a570dea49b98f477012c3bb0,
+    type: 2}
   translationHandlesConfiguration: {fileID: 0}
   handleProximityEffectConfiguration: {fileID: 0}
   hideElementsInInspector: 1
