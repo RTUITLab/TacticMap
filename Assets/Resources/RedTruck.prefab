@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 826928613890427581}
   - component: {fileID: 826928613890427554}
+  - component: {fileID: 774419919452489850}
   - component: {fileID: 826928613890427559}
   - component: {fileID: 5189498005528770308}
-  - component: {fileID: 7875303370307317596}
-  - component: {fileID: 114368470087958708}
-  - component: {fileID: 774419919452489850}
   - component: {fileID: 2905814002046860399}
+  - component: {fileID: 4233583497192657307}
+  - component: {fileID: 9052859930600831721}
   - component: {fileID: 3796552601836208103}
   m_Layer: 0
   m_Name: RedTruck
@@ -54,6 +54,39 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.056584716, y: 0.16991583, z: 0.060563967}
   m_Center: {x: 0.00039739534, y: 0.019608155, z: -0.014011666}
+--- !u!114 &774419919452489850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826928613890427558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8287ad9b40ba0e489b353e51ad262c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStatusChangeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestroy:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCatchStatusChange:
+    m_PersistentCalls:
+      m_Calls: []
+  transform: {fileID: 0}
+  offset: {x: 0, y: 0, z: -0.015}
+  symbol: {fileID: 6227918439085953167}
+  model: {fileID: 2197033016109176568}
+  coloredObjs:
+  - {fileID: 2197033016106977336}
+  - {fileID: 8794492871455329011}
+  textMesh: {fileID: 5973093568884439453}
+  standartMaterials:
+  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
+  - {fileID: 2100000, guid: a5dec2ae0831b6d4fbd931f8b5d9abcf, type: 2}
+  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
 --- !u!114 &826928613890427559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,8 +127,7 @@ MonoBehaviour:
   rotateLerpTime: 0
   scaleLerpTime: 0
   enableConstraints: 1
-  constraintsManager: {fileID: 2237090130028857521, guid: 8482ac6377214a34b96fb9d087de4147,
-    type: 3}
+  constraintsManager: {fileID: 2905814002046860399}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:
@@ -109,7 +141,21 @@ MonoBehaviour:
   onHoverExited:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7875303370307317596
+--- !u!114 &2905814002046860399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826928613890427558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98de877dee5fc341b4eb59dfdab266c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoConstraintSelection: 1
+  selectedConstraints: []
+--- !u!114 &4233583497192657307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +171,7 @@ MonoBehaviour:
   proximityType: 3
   constraintOnRotation: 3
   useLocalSpaceForConstraint: 1
---- !u!114 &114368470087958708
+--- !u!114 &9052859930600831721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,53 +187,6 @@ MonoBehaviour:
   proximityType: 3
   constraintOnMovement: 4
   useLocalSpaceForConstraint: 1
---- !u!114 &774419919452489850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 826928613890427558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8287ad9b40ba0e489b353e51ad262c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnStatusChangeEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDestroy:
-    m_PersistentCalls:
-      m_Calls: []
-  OnCatchStatusChange:
-    m_PersistentCalls:
-      m_Calls: []
-  transform: {fileID: 0}
-  offset: {x: 0, y: 0, z: -0.015}
-  symbol: {fileID: 6227918439085953167}
-  model: {fileID: 2197033016109176568}
-  coloredObjs:
-  - {fileID: 2197033016106977336}
-  - {fileID: 8794492871455329011}
-  textMesh: {fileID: 5973093568884439453}
-  standartMaterials:
-  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
-  - {fileID: 2100000, guid: a5dec2ae0831b6d4fbd931f8b5d9abcf, type: 2}
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
---- !u!114 &2905814002046860399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 826928613890427558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a98de877dee5fc341b4eb59dfdab266c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoConstraintSelection: 1
-  selectedConstraints: []
 --- !u!114 &3796552601836208103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,8 +220,7 @@ MonoBehaviour:
   scaleLerpTime: 0.001
   translateLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 2237090130028857521, guid: 8482ac6377214a34b96fb9d087de4147,
-    type: 3}
+  constraintsManager: {fileID: 2905814002046860399}
   rotateStarted:
     m_PersistentCalls:
       m_Calls: []

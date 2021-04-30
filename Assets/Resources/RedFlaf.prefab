@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 826928613890427559}
   - component: {fileID: 5189498005528770308}
   - component: {fileID: 6916182252201428245}
-  - component: {fileID: 7875303370307317596}
-  - component: {fileID: 114368470087958708}
+  - component: {fileID: 8386999734926026344}
+  - component: {fileID: 5124917708354382419}
   - component: {fileID: 919216053153520669}
   m_Layer: 0
   m_Name: RedFlaf
@@ -127,8 +127,7 @@ MonoBehaviour:
   rotateLerpTime: 0
   scaleLerpTime: 0
   enableConstraints: 1
-  constraintsManager: {fileID: 2237090130028857521, guid: 8482ac6377214a34b96fb9d087de4147,
-    type: 3}
+  constraintsManager: {fileID: 6916182252201428245}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:
@@ -155,10 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoConstraintSelection: 1
-  selectedConstraints:
-  - {fileID: 7875303370307317596}
-  - {fileID: 114368470087958708}
---- !u!114 &7875303370307317596
+  selectedConstraints: []
+--- !u!114 &8386999734926026344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,7 +171,7 @@ MonoBehaviour:
   proximityType: 3
   constraintOnRotation: 3
   useLocalSpaceForConstraint: 1
---- !u!114 &114368470087958708
+--- !u!114 &5124917708354382419
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,8 +220,7 @@ MonoBehaviour:
   scaleLerpTime: 0.001
   translateLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 2237090130028857521, guid: 8482ac6377214a34b96fb9d087de4147,
-    type: 3}
+  constraintsManager: {fileID: 6916182252201428245}
   rotateStarted:
     m_PersistentCalls:
       m_Calls: []
