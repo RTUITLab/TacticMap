@@ -37,6 +37,8 @@ Project for Microsoft Hololens Mixed Reality headset with multi-user experience.
 - Start ur Photon On Premises Server.
 
 ---
+### Typical problems: ###
+
 > "Windows Mobile" error while building your project: Open `HoloMapOnline > HoloMapOnline.vcxproj` file in the solution folder. At the end of the file, cut out the mention of Windows Mobile.
 
 > "Failed to connect to server after testing each known IP" error: Remove all Win 10 SDK after `10.0.18362` or change unity to a newer LTS version.
