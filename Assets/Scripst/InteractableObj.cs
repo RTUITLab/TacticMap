@@ -1,10 +1,11 @@
 ﻿using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.UI.BoundsControl;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(BoundingBox))]
+[RequireComponent(typeof(BoundsControl))]
 [RequireComponent(typeof(ObjectManipulator))]
 [AddComponentMenu("TacticMap/Interactable Object")]
 
@@ -24,7 +25,7 @@ public class InteractableObj : MonoBehaviour
     private bool canGrab = true;
     private int myMaterialId;
     private ObjectManipulator objectManipulator;
-    private BoundingBox boundingBox;
+    private BoundsControl boundingBox;
     private Map map;
     private Vector3 lastPosition;
     private Vector3 lastScale;
@@ -54,7 +55,7 @@ public class InteractableObj : MonoBehaviour
     {
         OnStatusChangeEvent.AddListener(setObjSettings);
         objectManipulator = gameObject.GetComponent<ObjectManipulator>();
-        boundingBox = gameObject.GetComponent<BoundingBox>();
+        boundingBox = gameObject.GetComponent<BoundsControl>();
 
         boundingBox.RotateStarted.AddListener(Grab);
         boundingBox.RotateStopped.AddListener(Release);

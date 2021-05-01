@@ -1,12 +1,7 @@
 fileFormatVersion: 2
-guid: aa1616e9d63e08740b6e9644f718190f
-ScriptedImporter:
-  fileIDToRecycleName:
-    11400000: HoloMapOnline.Dependencies.msb4u
+guid: 8af031e28b659c24ba4ec510ca12966f
+DefaultImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-  script: {fileID: 11500000, guid: 0e4dca1acba66fd478b3854f09a32ec7, type: 3}
-  buildEngine: 0
-  profiles: []
