@@ -12,7 +12,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void StartGame(bool isOnline)
     {
         PhotonNetwork.GameVersion = version;
-        PhotonNetwork.NickName = UserName.userName;
+        PhotonNetwork.NickName = UserName.instance.userName;
         if (isOnline)
         {
             PhotonNetwork.ConnectUsingSettings();

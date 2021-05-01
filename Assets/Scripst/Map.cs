@@ -110,7 +110,7 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void SyncCatchedStatus(int id, bool status)   // true я захватил, false - я отпустил
     {
-        photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.userName);
+        photonView.RPC("SyncStatus", RpcTarget.Others, id, status, UserName.instance.userName);
     }
 
     #region Spawn button
