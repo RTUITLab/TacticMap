@@ -9,10 +9,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] inGame;   //Игровое поле и другие обьекты доступные только во время игры.
     [SerializeField] private GameObject menuUI;     //UI который не должен быть виден во время игры.
 
-    public void StartGame(bool isOnline)
+    private void Avake()
     {
         PhotonNetwork.GameVersion = version;
         PhotonNetwork.NickName = UserName.instance.userName;
+    }
+
+    public void StartGame(bool isOnline)
+    {
         if (isOnline)
         {
             PhotonNetwork.ConnectUsingSettings();
@@ -24,8 +28,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         menuUI.SetActive(false);
     }
 
+    public void StopGame()
+    {
+        PhotonNetwork.Disconnect();
+        menuUI.SetActive(true);
+        SetObjActive(inGame, false);
+    }
+
     public override void OnConnectedToMaster()
     {
+        Debug.Log("Connected to master");
         PhotonNetwork.JoinRandomRoom();
     }
 

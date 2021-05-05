@@ -14,20 +14,17 @@ public class Map : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject[] prefabs;
     private List<InteractableObj> objs = new List<InteractableObj>();
-    private PhotonView photonView;
+    [SerializeField] private PhotonView photonView;
     private DisplayTypes _displayType = DisplayTypes.Model;
     private Transform transform;
     private ObjMaterial material = ObjMaterial.Gray;
     private int modelID = 0;
-    private ObjectManipulator manipulationHandler;
-    private BoundsControl bounding;
+    [SerializeField] private ObjectManipulator manipulationHandler;
+    [SerializeField] private BoundsControl bounding;
     private bool grabbed = false;
 
     private void Awake()
     {
-        photonView = gameObject.GetComponent<PhotonView>();
-        manipulationHandler = gameObject.GetComponent<ObjectManipulator>();
-        bounding = gameObject.GetComponent<BoundsControl>();
         transform = gameObject.transform;
 
         manipulationHandler.OnManipulationStarted.AddListener((data) => Grab());
@@ -149,6 +146,22 @@ public class Map : MonoBehaviourPunCallbacks
         {
             objs[i].SetGrabable(status);
         }
+    }
+
+    public override void OnLeftRoom()
+    {
+        for (int i = 0; i < objs.Count; ++i)
+        {
+            objs[i].DestroyObject();
+        }
+        objs.Clear();
+
+        manipulationHandler.OnManipulationStarted.RemoveAllListeners();
+        manipulationHandler.OnManipulationEnded.RemoveAllListeners();
+        bounding.RotateStarted.RemoveAllListeners();
+        bounding.RotateStopped.RemoveAllListeners();
+        bounding.ScaleStarted.RemoveAllListeners();
+        bounding.ScaleStopped.RemoveAllListeners();
     }
 
     [PunRPC]
