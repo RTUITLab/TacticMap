@@ -1,16 +1,22 @@
-﻿using TMPro;
+﻿using Microsoft.MixedReality.Toolkit.Experimental.UI;
+using TMPro;
 using UnityEngine;
 
 public class UserName : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI textMesh;
-    [SerializeField] private TMP_InputField inputField;
+    public static UserName instance { private set; get; }
+    [SerializeField] private TextMeshProUGUI previewName;
+    [SerializeField] private MRTKTMPInputField inputField;
     [SerializeField] private string standartName = "Hololens";
     private string startString = "Your name: ";
     private string fieldName = "userName";
-    public static string userName = "";
+    public string userName { private set; get; }
 
-    private TouchScreenKeyboard keyboard;
+    private void Awake()
+    {
+        userName = string.Empty;
+        instance = this;
+    }
 
     void Start()
     {
@@ -34,7 +40,7 @@ public class UserName : MonoBehaviour
 
     private void PrintName(string userName)
     {
-        textMesh.text = startString + "\n" + userName;
+        previewName.text = startString + "\n" + userName;
     }
 
     public void BtnSetNewUserName()
@@ -50,11 +56,5 @@ public class UserName : MonoBehaviour
             PrintName(userName);
         }
         inputField.text = "";
-        keyboard.active = false;
-    }
-
-    public void TriggerOpenKeyboard()
-    {
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, false);
     }
 }
