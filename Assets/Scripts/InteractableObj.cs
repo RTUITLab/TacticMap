@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
+[SelectionBase]
 [RequireComponent(typeof(BoundsControl))]
 [RequireComponent(typeof(ObjectManipulator))]
 [AddComponentMenu("TacticMap/Interactable Object")]
@@ -16,16 +17,17 @@ public class InteractableObj : MonoBehaviour
     [HideInInspector] public CatchEvent OnCatchStatusChange;
     [HideInInspector] public Transform transform;
 
+    [SerializeField] private InteractionObjectsSettings settings;
     [SerializeField] private Vector3 offset;
     [SerializeField] private GameObject symbol; //Условное обозначение на топографической карте.
     [SerializeField] private GameObject model;
     [SerializeField] private MeshRenderer[] coloredObjs;
     [SerializeField] private TextMeshProUGUI textMesh;
-    [SerializeField] private Material[] standartMaterials;
+    [SerializeField] private ObjectManipulator objectManipulator;
+    [SerializeField] private BoundsControl boundingBox;
+
     private bool canGrab = true;
     private int myMaterialId;
-    private ObjectManipulator objectManipulator;
-    private BoundsControl boundingBox;
     private Map map;
     private Vector3 lastPosition;
     private Vector3 lastScale;
@@ -54,8 +56,6 @@ public class InteractableObj : MonoBehaviour
     void Awake()
     {
         OnStatusChangeEvent.AddListener(setObjSettings);
-        objectManipulator = gameObject.GetComponent<ObjectManipulator>();
-        boundingBox = gameObject.GetComponent<BoundsControl>();
 
         boundingBox.RotateStarted.AddListener(Grab);
         boundingBox.RotateStopped.AddListener(Release);
@@ -210,13 +210,13 @@ public class InteractableObj : MonoBehaviour
         }
         else if (localStatus == Statuses.Them)
         {
-            ChangeAllMaterial(standartMaterials[(int)ObjMaterial.Gray]);
+            ChangeAllMaterial(settings.standartMaterials[(int)ObjMaterial.Gray]);
             boundingBox.enabled = false;
             objectManipulator.enabled = false;
         }
         else if (localStatus == Statuses.Nobody)
         {
-            ChangeAllMaterial(standartMaterials[myMaterialId]);
+            ChangeAllMaterial(settings.standartMaterials[myMaterialId]);
             if (canGrab)
             {
                 boundingBox.enabled = true;
@@ -268,7 +268,7 @@ public class InteractableObj : MonoBehaviour
         this.id = id;
         this.map = map;
         ChangeDisplayType(displayType);
-        ChangeAllMaterial(standartMaterials[materialId]);
+        ChangeAllMaterial(settings.standartMaterials[materialId]);
         myMaterialId = materialId;
     }
 

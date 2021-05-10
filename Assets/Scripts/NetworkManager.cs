@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Events;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -8,6 +9,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Map map;
     [SerializeField] private GameObject[] inGame;   //Игровое поле и другие обьекты доступные только во время игры.
     [SerializeField] private GameObject menuUI;     //UI который не должен быть виден во время игры.
+    public UnityEvent OnGameStop;
 
     private void Avake()
     {
@@ -31,6 +33,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void StopGame()
     {
         PhotonNetwork.Disconnect();
+        OnGameStop.Invoke();
         menuUI.SetActive(true);
         SetObjActive(inGame, false);
     }

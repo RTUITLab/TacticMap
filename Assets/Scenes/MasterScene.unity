@@ -393,7 +393,7 @@ Transform:
   - {fileID: 724334970}
   - {fileID: 266995462}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &35028255
 BoxCollider:
@@ -591,6 +591,20 @@ MonoBehaviour:
   - {fileID: 35028252}
   - {fileID: 1811242049}
   menuUI: {fileID: 123148326}
+  OnGameStop:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 35028256}
+        m_MethodName: ClearArea
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &38694923
 Transform:
   m_ObjectHideFlags: 0
@@ -603,7 +617,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46647880
 GameObject:
@@ -7678,7 +7692,7 @@ Transform:
   m_Children:
   - {fileID: 963194228}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743460738
 GameObject:
@@ -12230,7 +12244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1588758763 stripped
 MeshRenderer:
