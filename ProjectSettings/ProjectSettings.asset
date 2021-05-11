@@ -665,10 +665,19 @@ PlayerSettings:
     65686: Assets/Textures/Logos/Logo 75.png
     65736: Assets/Textures/Logos/Logo 100.png
     65936: Assets/Textures/Logos/Logo 200.png
+    131172: Assets/Textures/Logos/Logo 620x300.png
+    131272: Assets/Textures/Logos/Logo 1240x600.png
+    131472: Assets/Textures/Logos/Logo 2480x1200.png
+    2031640: Assets/Textures/Logos/Logo 24.png
     2031816: Assets/Textures/Logos/Logo 88x88.png
+    2031872: Assets/Textures/Logos/Logo 256.png
     2097352: Assets/Textures/Logos/Logo 142x142.png
     2162888: Assets/Textures/Logos/Logo 300x300.png
+    2163088: Assets/Textures/Logos/Logo 600.png
     2228424: Assets/Textures/Logos/Logo 620x620.png
+    2228624: Assets/Textures/Logos/Logo 1240.png
+    2293960: Assets/Textures/Logos/Logo 620x300.png
+    2294160: Assets/Textures/Logos/Logo 1240x600.png
   metroTileShortName: TacticMap
   metroTileShowName: 0
   metroMediumTileShowName: 0
