@@ -148,7 +148,7 @@ public class Map : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnLeftRoom()
+    public void ClearArea()
     {
         for (int i = 0; i < objs.Count; ++i)
         {

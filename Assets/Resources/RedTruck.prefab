@@ -76,6 +76,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   transform: {fileID: 0}
+  settings: {fileID: 11400000, guid: 3c82760a6a3de7049a7a52226f9c2c8e, type: 2}
   offset: {x: 0, y: 0, z: -0.015}
   symbol: {fileID: 6227918439085953167}
   model: {fileID: 2197033016109176568}
@@ -83,10 +84,8 @@ MonoBehaviour:
   - {fileID: 2197033016106977336}
   - {fileID: 8794492871455329011}
   textMesh: {fileID: 5973093568884439453}
-  standartMaterials:
-  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
-  - {fileID: 2100000, guid: a5dec2ae0831b6d4fbd931f8b5d9abcf, type: 2}
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
+  objectManipulator: {fileID: 5189498005528770308}
+  boundingBox: {fileID: 3796552601836208103}
 --- !u!114 &826928613890427559
 MonoBehaviour:
   m_ObjectHideFlags: 0
