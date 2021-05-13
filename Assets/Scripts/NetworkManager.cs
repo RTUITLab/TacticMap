@@ -10,11 +10,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] inGame;   //Игровое поле и другие обьекты доступные только во время игры.
     [SerializeField] private GameObject menuUI;     //UI который не должен быть виден во время игры.
     public UnityEvent OnGameStop;
+    public bool HololensOneTest = false;
 
     private void Avake()
     {
         PhotonNetwork.GameVersion = version;
         PhotonNetwork.NickName = UserName.instance.userName;
+
+        if(HololensOneTest) StartGame(true);
     }
 
     public void StartGame(bool isOnline)
