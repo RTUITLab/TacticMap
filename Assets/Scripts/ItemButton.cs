@@ -7,9 +7,9 @@ public class ItemButton : MonoBehaviour
     [SerializeField] private Material[] materials;
     [SerializeField] private Renderer modelRenderer;
 
-    public void SetObjMaterial(ObjMaterial objMaterial)
+    public void SetObjColor(Color color)
     {
-        modelRenderer.material = materials[(int)objMaterial - 1];
+        modelRenderer.material.color = color;
     }
 
     public void SpawnModel()

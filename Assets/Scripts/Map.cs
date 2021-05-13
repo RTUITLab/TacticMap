@@ -17,7 +17,7 @@ public class Map : MonoBehaviourPunCallbacks
     [SerializeField] private PhotonView photonView;
     private DisplayTypes _displayType = DisplayTypes.Model;
     private Transform transform;
-    private ObjMaterial material = ObjMaterial.Gray;
+    private int colorID = -1;
     private int modelID = 0;
     [SerializeField] private ObjectManipulator manipulationHandler;
     [SerializeField] private BoundsControl bounding;
@@ -111,9 +111,9 @@ public class Map : MonoBehaviourPunCallbacks
     }
 
     #region Spawn button
-    public void SetMaterial(int idMaterial)
+    public void SetColor(int ColorId)
     {
-        material = (ObjMaterial)idMaterial;
+        colorID = ColorId;
     }
 
     public void SetModel(int modelID)
@@ -123,7 +123,7 @@ public class Map : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, modelID, (int)material);
+        photonView.RPC("OnlineSpawn", RpcTarget.AllBuffered, modelID, colorID);
     }
 
     #endregion

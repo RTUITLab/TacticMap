@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5734ade9a7b6914fa3d1978ae286e11, type: 3}
   m_Name: Standart Interaction Objects Settings
   m_EditorClassIdentifier: 
-  standartMaterials:
-  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
-  - {fileID: 2100000, guid: a5dec2ae0831b6d4fbd931f8b5d9abcf, type: 2}
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
+  _standardColor: {r: 0.30980393, g: 0.2901961, b: 0.2901961, a: 0}
+  Colors:
+  - {r: 0.9607843, g: 0.03137255, b: 0.03137255, a: 0}
+  - {r: 0.043137256, g: 0.043137256, b: 0.58431375, a: 0}

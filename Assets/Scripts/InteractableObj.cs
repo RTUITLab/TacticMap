@@ -27,7 +27,7 @@ public class InteractableObj : MonoBehaviour
     [SerializeField] private BoundsControl boundingBox;
 
     private bool canGrab = true;
-    private int myMaterialId;
+    private int colorID;
     private Map map;
     private Vector3 lastPosition;
     private Vector3 lastScale;
@@ -210,13 +210,13 @@ public class InteractableObj : MonoBehaviour
         }
         else if (localStatus == Statuses.Them)
         {
-            ChangeAllMaterial(settings.standartMaterials[(int)ObjMaterial.Gray]);
+            ChangeAllColors(settings.standardColor);
             boundingBox.enabled = false;
             objectManipulator.enabled = false;
         }
         else if (localStatus == Statuses.Nobody)
         {
-            ChangeAllMaterial(settings.standartMaterials[myMaterialId]);
+            ChangeAllColors(settings.GetColor(colorID));
             if (canGrab)
             {
                 boundingBox.enabled = true;
@@ -227,11 +227,11 @@ public class InteractableObj : MonoBehaviour
         textMesh.text = catherName;
     }
 
-    private void ChangeAllMaterial(Material material)
+    private void ChangeAllColors(Color color)
     {
         for (int i = 0; i < coloredObjs.Length; ++i)
         {
-            coloredObjs[i].material = material;
+            coloredObjs[i].material.color = color;
         }
     }
 
@@ -262,14 +262,14 @@ public class InteractableObj : MonoBehaviour
         }
     }
 
-    public void OnSpawn(int id, int materialId, Map map, DisplayTypes displayType, bool canGrab)
+    public void OnSpawn(int id, int colorID, Map map, DisplayTypes displayType, bool canGrab)
     {
         this.canGrab = canGrab;
         this.id = id;
         this.map = map;
         ChangeDisplayType(displayType);
-        ChangeAllMaterial(settings.standartMaterials[materialId]);
-        myMaterialId = materialId;
+        ChangeAllColors(settings.GetColor(colorID));
+        this.colorID = colorID;
     }
 
     public void log(string str)

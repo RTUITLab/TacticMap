@@ -1,26 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemMenu : MonoBehaviour
 {
     [SerializeField] private Map map;
     [SerializeField] private ItemButton[] itemButtons;
-    private ObjMaterial currMaterial = ObjMaterial.Red;
+    [SerializeField] private InteractionObjectsSettings interactionObjectsSettings;
 
-    public void ChangeMaterial()
+    private void Awake()
     {
-        currMaterial = (currMaterial == ObjMaterial.Red) ? ObjMaterial.Blue : ObjMaterial.Red;
+        ChangeColor(interactionObjectsSettings.GetCurrColor());
+    }
+
+    public void ChangeColor()
+    { 
+        ChangeColor(interactionObjectsSettings.GetNextColor());
+    }
+
+    private void ChangeColor(Color color)
+    {
         foreach (var itemButton in itemButtons)
         {
-            itemButton.SetObjMaterial(currMaterial);
+            itemButton.SetObjColor(color);
         }
     }
 
     public void SpawnModel(int modelID)
     {
-        map.SetMaterial((int)currMaterial);
+        map.SetColor(interactionObjectsSettings.GetCurrColorId());
         map.SetModel(modelID);
         map.Spawn();
     }
