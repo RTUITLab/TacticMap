@@ -4,11 +4,16 @@ using UnityEngine.Events;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    [Header("Settings")]
     [SerializeField] private string version;
     [SerializeField] private byte maxPlayers;
+
+    [Header("Dependencies")]
     [SerializeField] private Map map;
     [SerializeField] private GameObject[] inGame;   //Игровое поле и другие обьекты доступные только во время игры.
     [SerializeField] private GameObject menuUI;     //UI который не должен быть виден во время игры.
+
+    [Header("Events")]
     public UnityEvent OnGameStop;
 
     private void Avake()

@@ -37,7 +37,7 @@ public class ItemMenu : MonoBehaviour
         map.BtnChangeDisplayType();
     }
 
-    public Color GetNextColor()
+    private Color GetNextColor()
     {
         currColorNum = (currColorNum + 1) % colorPalette.GetColors().Length;
         return colorPalette.GetColors()[currColorNum];

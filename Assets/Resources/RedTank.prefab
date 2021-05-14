@@ -78,11 +78,8 @@ MonoBehaviour:
   transform: {fileID: 0}
   colorPalette: {fileID: 11400000, guid: 3c82760a6a3de7049a7a52226f9c2c8e, type: 2}
   offset: {x: 0, y: 0, z: -0.015}
-  symbol: {fileID: 3817011623815532216}
-  model: {fileID: 7831756226335584691}
-  coloredObjs:
-  - {fileID: 7831756226333323123}
-  - {fileID: 3817011623817465976}
+  symbol: {fileID: 3817011623817465976}
+  model: {fileID: 7831756226333323123}
   textMesh: {fileID: 184438290730426209}
   objectManipulator: {fileID: 5189498005528770308}
   boundingBox: {fileID: 5630576678695789007}
@@ -503,7 +500,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3817011623815041688
 Transform:
   m_ObjectHideFlags: 0

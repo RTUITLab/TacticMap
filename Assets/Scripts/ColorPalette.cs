@@ -3,7 +3,11 @@
 [CreateAssetMenu(menuName = "TacticMap/Color Palette")]
 public class ColorPalette: ScriptableObject
 {
-    [SerializeField] private Color _standardColor;
+    [Header("Color Palette")]
+    [ColorUsage(false)]
+    [SerializeField] private Color _standardColor; //Color on catch.
+    
+    [ColorUsage(false)]
     [SerializeField] private Color[] Colors;
 
     public Color standardColor

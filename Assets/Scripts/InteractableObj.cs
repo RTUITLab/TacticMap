@@ -17,12 +17,18 @@ public class InteractableObj : MonoBehaviour
     [HideInInspector] public CatchEvent OnCatchStatusChange;
     [HideInInspector] public Transform transform;
 
+    [Header("Settings")]
     [SerializeField] private ColorPalette colorPalette;
     [SerializeField] private Vector3 offset;
-    [SerializeField] private GameObject symbol; //Условное обозначение на топографической карте.
-    [SerializeField] private GameObject model;
-    [SerializeField] private MeshRenderer[] coloredObjs;
+
+    [Header("Objects Meshes")]
+    [SerializeField] private MeshRenderer symbol; //Условное обозначение на топографической карте.
+    [SerializeField] private MeshRenderer model;
+
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI textMesh;
+
+    [Header("MRTK dependencies")]
     [SerializeField] private ObjectManipulator objectManipulator;
     [SerializeField] private BoundsControl boundingBox;
 
@@ -229,10 +235,8 @@ public class InteractableObj : MonoBehaviour
 
     private void ChangeAllColors(Color color)
     {
-        for (int i = 0; i < coloredObjs.Length; ++i)
-        {
-            coloredObjs[i].material.color = color;
-        }
+        symbol.material.color = color;
+        model.material.color = color;
     }
 
     public void OnTriggerStay(Collider other)   //Мусорка
@@ -252,13 +256,13 @@ public class InteractableObj : MonoBehaviour
     {
         if (type == DisplayTypes.Model)
         {
-            model.SetActive(true);
-            symbol.SetActive(false);
+            model.enabled = true;
+            symbol.enabled = false;
         }
         else if (type == DisplayTypes.Symbol)
         {
-            model.SetActive(false);
-            symbol.SetActive(true);
+            model.enabled = false;
+            symbol.enabled = true;
         }
     }
 

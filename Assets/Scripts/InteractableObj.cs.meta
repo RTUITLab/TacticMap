@@ -3,7 +3,14 @@ guid: c8287ad9b40ba0e489b353e51ad262c3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - transform: {instanceID: 0}
+  - colorPalette: {fileID: 11400000, guid: 3c82760a6a3de7049a7a52226f9c2c8e, type: 2}
+  - symbol: {instanceID: 0}
+  - model: {instanceID: 0}
+  - textMesh: {instanceID: 0}
+  - objectManipulator: {instanceID: 0}
+  - boundingBox: {instanceID: 0}
   executionOrder: 0
   icon: {fileID: 2800000, guid: 44841bb593cbc5049a77b42db319806d, type: 3}
   userData: 

@@ -2,7 +2,10 @@
 
 public class ItemButton : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private byte modelID;
+
+    [Header("Dependencies")]
     [SerializeField] private ItemMenu itemMenu;
     [SerializeField] private Renderer modelRenderer;
 
