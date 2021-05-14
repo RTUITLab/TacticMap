@@ -420,10 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bef5fb6beda9a442ab50831aa85d45e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 826928613890427558, guid: 2acd083a68e75ae4facfdd2a5fbab5a9, type: 3}
-  - {fileID: 826928613890427558, guid: 2fb70a4f4d8e89b4a8897d3315b9046b, type: 3}
-  - {fileID: 826928613890427558, guid: 1afc5a8d224329f4ca33ec859f86e95b, type: 3}
+  modelsStorage: {fileID: 11400000, guid: b5d32508eeeeb924aaa5d20c63661c65, type: 2}
   photonView: {fileID: 35028260}
   manipulationHandler: {fileID: 35028258}
   bounding: {fileID: 35028257}
@@ -550,7 +547,8 @@ MonoBehaviour:
   Synchronization: 0
   OwnershipTransfer: 0
   observableSearch: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0

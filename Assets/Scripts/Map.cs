@@ -12,16 +12,20 @@ using Photon.Realtime;
 
 public class Map : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject[] prefabs;
     private List<InteractableObj> objs = new List<InteractableObj>();
-    [SerializeField] private PhotonView photonView;
-    private DisplayTypes _displayType = DisplayTypes.Model;
-    private Transform transform;
     private int colorID = -1;
     private int modelID = 0;
+    private DisplayTypes _displayType = DisplayTypes.Model;
+    private Transform transform;
+    private bool grabbed = false;
+
+    [Header("Settings")]
+    [SerializeField] private ModelsStorage modelsStorage;
+
+    [Header("Dependencies")]
+    [SerializeField] private PhotonView photonView;
     [SerializeField] private ObjectManipulator manipulationHandler;
     [SerializeField] private BoundsControl bounding;
-    private bool grabbed = false;
 
     private void Awake()
     {
@@ -181,7 +185,7 @@ public class Map : MonoBehaviourPunCallbacks
     [PunRPC]
     private void OnlineSpawn(int modelID, int materialID)
     {
-        GameObject newObj = Instantiate(prefabs[modelID], gameObject.transform.position, transform.rotation, gameObject.transform);
+        GameObject newObj = Instantiate(modelsStorage.GetModels()[modelID], gameObject.transform.position, transform.rotation, gameObject.transform);
         InteractableObj interactableObj = newObj.GetComponent<InteractableObj>();
         interactableObj.OnSpawn(objs.Count, materialID, this, _displayType, !grabbed);
         interactableObj.OnDestroy.AddListener((num) => photonView.RPC("destroy", RpcTarget.AllBuffered, num));

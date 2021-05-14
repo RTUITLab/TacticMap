@@ -3,7 +3,11 @@ guid: 7bef5fb6beda9a442ab50831aa85d45e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - modelsStorage: {fileID: 11400000, guid: b5d32508eeeeb924aaa5d20c63661c65, type: 2}
+  - photonView: {instanceID: 0}
+  - manipulationHandler: {instanceID: 0}
+  - bounding: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
