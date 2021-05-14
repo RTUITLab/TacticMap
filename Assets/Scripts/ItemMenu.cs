@@ -4,16 +4,17 @@ public class ItemMenu : MonoBehaviour
 {
     [SerializeField] private Map map;
     [SerializeField] private ItemButton[] itemButtons;
-    [SerializeField] private InteractionObjectsSettings interactionObjectsSettings;
+    [SerializeField] private ColorPalette colorPalette;
+    private int currColorNum = 0;
 
     private void Awake()
     {
-        ChangeColor(interactionObjectsSettings.GetCurrColor());
+        ChangeColor(colorPalette.GetColors()[currColorNum]);
     }
 
     public void ChangeColor()
     { 
-        ChangeColor(interactionObjectsSettings.GetNextColor());
+        ChangeColor(GetNextColor());
     }
 
     private void ChangeColor(Color color)
@@ -26,7 +27,7 @@ public class ItemMenu : MonoBehaviour
 
     public void SpawnModel(int modelID)
     {
-        map.SetColor(interactionObjectsSettings.GetCurrColorId());
+        map.SetColor(currColorNum);
         map.SetModel(modelID);
         map.Spawn();
     }
@@ -34,5 +35,11 @@ public class ItemMenu : MonoBehaviour
     public void ChangeDisplayType()
     {
         map.BtnChangeDisplayType();
+    }
+
+    public Color GetNextColor()
+    {
+        currColorNum = (currColorNum + 1) % colorPalette.GetColors().Length;
+        return colorPalette.GetColors()[currColorNum];
     }
 }

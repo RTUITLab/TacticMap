@@ -76,7 +76,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   transform: {fileID: 0}
-  settings: {fileID: 11400000, guid: 3c82760a6a3de7049a7a52226f9c2c8e, type: 2}
+  colorPalette: {fileID: 11400000, guid: 3c82760a6a3de7049a7a52226f9c2c8e, type: 2}
   offset: {x: 0, y: 0, z: -0.015}
   symbol: {fileID: 3817011623815532216}
   model: {fileID: 7831756226335584691}

@@ -111,9 +111,9 @@ public class Map : MonoBehaviourPunCallbacks
     }
 
     #region Spawn button
-    public void SetColor(int ColorId)
+    public void SetColor(int ColorID)
     {
-        colorID = ColorId;
+        this.colorID = ColorID;
     }
 
     public void SetModel(int modelID)

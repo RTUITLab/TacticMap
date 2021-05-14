@@ -17,7 +17,7 @@ public class InteractableObj : MonoBehaviour
     [HideInInspector] public CatchEvent OnCatchStatusChange;
     [HideInInspector] public Transform transform;
 
-    [SerializeField] private InteractionObjectsSettings settings;
+    [SerializeField] private ColorPalette colorPalette;
     [SerializeField] private Vector3 offset;
     [SerializeField] private GameObject symbol; //Условное обозначение на топографической карте.
     [SerializeField] private GameObject model;
@@ -210,13 +210,13 @@ public class InteractableObj : MonoBehaviour
         }
         else if (localStatus == Statuses.Them)
         {
-            ChangeAllColors(settings.standardColor);
+            ChangeAllColors(colorPalette.standardColor);
             boundingBox.enabled = false;
             objectManipulator.enabled = false;
         }
         else if (localStatus == Statuses.Nobody)
         {
-            ChangeAllColors(settings.GetColor(colorID));
+            ChangeAllColors(colorPalette.GetColors()[colorID]);
             if (canGrab)
             {
                 boundingBox.enabled = true;
@@ -268,7 +268,7 @@ public class InteractableObj : MonoBehaviour
         this.id = id;
         this.map = map;
         ChangeDisplayType(displayType);
-        ChangeAllColors(settings.GetColor(colorID));
+        ChangeAllColors(colorPalette.GetColors()[colorID]);
         this.colorID = colorID;
     }
 

@@ -4876,7 +4876,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
+  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5079,7 +5079,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
+  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5587,9 +5587,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelID: 1
   itemMenu: {fileID: 1333129551378609064}
-  materials:
-  - {fileID: 2100000, guid: 13ea3486f8b61ef47b4e7cdaaf473f01, type: 2}
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
   modelRenderer: {fileID: 703688667}
 --- !u!4 &776791503
 Transform:
@@ -7695,9 +7692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelID: 2
   itemMenu: {fileID: 1333129551378609064}
-  materials:
-  - {fileID: 2100000, guid: 13ea3486f8b61ef47b4e7cdaaf473f01, type: 2}
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
   modelRenderer: {fileID: 682587003}
 --- !u!65 &1329914674
 BoxCollider:
@@ -10758,7 +10752,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
+  - {fileID: 2100000, guid: abf907c025004c74cb5c6771fffe8e41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12001,8 +11995,7 @@ MonoBehaviour:
   - {fileID: 8533866940314338276}
   - {fileID: 1329914673}
   - {fileID: 764446076}
-  interactionObjectsSettings: {fileID: 11400000, guid: 3c82760a6a3de7049a7a52226f9c2c8e,
-    type: 2}
+  colorPalette: {fileID: 11400000, guid: 3c82760a6a3de7049a7a52226f9c2c8e, type: 2}
 --- !u!33 &1584991704118200198
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -16842,9 +16835,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelID: 0
   itemMenu: {fileID: 1333129551378609064}
-  materials:
-  - {fileID: 2100000, guid: 13ea3486f8b61ef47b4e7cdaaf473f01, type: 2}
-  - {fileID: 2100000, guid: 72679f89df74e544f96a15e8c0568c49, type: 2}
   modelRenderer: {fileID: 2134334383}
 --- !u!114 &8533866940314338300
 MonoBehaviour:

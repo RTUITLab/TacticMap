@@ -4,7 +4,6 @@ public class ItemButton : MonoBehaviour
 {
     [SerializeField] private byte modelID;
     [SerializeField] private ItemMenu itemMenu;
-    [SerializeField] private Material[] materials;
     [SerializeField] private Renderer modelRenderer;
 
     public void SetObjColor(Color color)
