@@ -662,6 +662,7 @@ GameObject:
   - component: {fileID: 123148328}
   - component: {fileID: 123148327}
   - component: {fileID: 123148333}
+  - component: {fileID: 123148334}
   m_Layer: 0
   m_Name: HandMenu
   m_TagString: Untagged
@@ -947,6 +948,25 @@ MonoBehaviour:
   previewName: {fileID: 2957685}
   inputField: {fileID: 1158677435}
   standartName: Hololens
+--- !u!114 &123148334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123148326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f251f4fb051cdc142b13e29f0c4aabaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hiddenMenu: {fileID: 295030784}
+  hideMenuButton: {fileID: 150022363}
+  uselessComponents:
+  - {fileID: 123148331}
+  - {fileID: 123148329}
+  - {fileID: 123148328}
+  - {fileID: 123148327}
 --- !u!1 &134009303
 GameObject:
   m_ObjectHideFlags: 0
