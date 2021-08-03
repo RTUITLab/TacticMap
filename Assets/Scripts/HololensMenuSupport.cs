@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 
 public class HololensMenuSupport : MonoBehaviour
@@ -12,13 +13,24 @@ public class HololensMenuSupport : MonoBehaviour
     [Header("For Hololens 2 components")]
     [SerializeField] private MonoBehaviour[] uselessComponents;
 
-    private void Awake()
+    private void Start()
     {
-        if (Environment.Is64BitProcess)
+      CheckCPU();  
+    }
+
+    private void CheckCPU()
+    {
+        Debug.Log("Check CPU");
+
+        if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(SystemInfo.processorType, "ARM", CompareOptions.IgnoreCase) >= 0)
         {
-            hiddenMenu.SetActive(true); 
+            Debug.Log("ARM");
+        }
+        else
+        {
+            Debug.Log("x86");
+            hiddenMenu.SetActive(true);
             hideMenuButton.SetActive(false);
-            Debug.Log("Is 64 Bit Process");
             foreach (MonoBehaviour script in uselessComponents)
             {
                 script.enabled = false;
