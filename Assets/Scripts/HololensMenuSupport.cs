@@ -6,8 +6,9 @@ public class HololensMenuSupport : MonoBehaviour
 {
     [Header("Hidden Menu")]
     [SerializeField] private GameObject hiddenMenu;
+    [SerializeField] [Range(0, 1f)] private float menuTranslation = 0.25f;
 
-    [Header("Useless hide button")]
+    [Header("Useless hide button")] 
     [SerializeField] private GameObject hideMenuButton;
 
     [Header("For Hololens 2 components")]
@@ -29,6 +30,7 @@ public class HololensMenuSupport : MonoBehaviour
         else
         {
             Debug.Log("x86");
+            transform.Translate(new Vector3(0, 0, menuTranslation));
             hiddenMenu.SetActive(true);
             hideMenuButton.SetActive(false);
             foreach (MonoBehaviour script in uselessComponents)
