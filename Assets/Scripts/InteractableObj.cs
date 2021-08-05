@@ -35,11 +35,8 @@ public class InteractableObj : MonoBehaviour
     private bool canGrab = true;
     private int colorID;
     private Map map;
-    private Vector3 lastPosition;
-    private Vector3 lastScale;
-    private Quaternion lastRotation;
     private string catherName = "";
-    private static float speed = 10f;
+    private static float delta = 0.02f;
     private Vector3 direction = Vector3.zero;
 
     public int id
@@ -71,21 +68,14 @@ public class InteractableObj : MonoBehaviour
         objectManipulator.OnManipulationEnded.AddListener((data) => Release());
 
         transform = gameObject.transform;
-        lastPosition = transform.localPosition;
-        lastScale = transform.localScale;
-        lastRotation = transform.localRotation;
         transform.localPosition += offset;
         direction = transform.localPosition;
     }
 
     private void Update()
     {
-        if (localStatus == Statuses.Mine) { return; }
-
-        if (direction != transform.localPosition)
-        {
-            transform.Translate(Time.deltaTime * (direction - transform.localPosition).normalized * Vector3.Distance(transform.localPosition, direction) * speed);  //Возможно это перебор (;
-        }
+        if (localStatus == Statuses.Mine || direction == transform.localPosition) { return; }
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, direction, delta);
     }
 
     public void UpdId(int id)
@@ -119,7 +109,7 @@ public class InteractableObj : MonoBehaviour
     /// <returns></returns>
     public bool NeedSyncPosition()
     {
-        if (lastPosition != transform.localPosition && localStatus == Statuses.Mine)
+        if (localStatus == Statuses.Mine)
         {
             return true;
         }
@@ -128,7 +118,7 @@ public class InteractableObj : MonoBehaviour
 
     public bool NeedSyncRotation()
     {
-        if (transform.localRotation != lastRotation)
+        if (localStatus == Statuses.Mine)
         {
             return true;
         }
@@ -137,44 +127,26 @@ public class InteractableObj : MonoBehaviour
 
     public bool NeedSyncScale()
     {
-        if (transform.localScale != lastScale)
+        if (localStatus == Statuses.Mine)
         {
             return true;
         }
         return false;
     }
 
-    public void AfterPositionSync()
-    {
-        lastPosition = transform.localPosition;
-    }
-
-    public void AfterRotationSync()
-    {
-        lastRotation = transform.localRotation;
-    }
-
-    public void AfterScaleSync()
-    {
-        lastScale = transform.localScale;
-    }
-
-    public void UpdPosition(float x, float y, float z)
+    public void ApplyDirection(float x, float y, float z)
     {
         direction = new Vector3(x, y, z);
-        AfterPositionSync();
     }
 
     public void UpdRotation(float x, float y, float z, float w)
     {
         transform.localRotation = new Quaternion(x, y, z, w);
-        AfterRotationSync();
     }
 
     public void UpdScale(float x, float y, float z)
     {
         transform.localScale = new Vector3(x, y, z);
-        AfterScaleSync();
     }
 
     #endregion transform

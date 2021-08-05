@@ -961,7 +961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hiddenMenu: {fileID: 295030784}
-  menuTranslation: 0.25
+  menuTranslation: 0.4
   hideMenuButton: {fileID: 150022363}
   uselessComponents:
   - {fileID: 123148331}

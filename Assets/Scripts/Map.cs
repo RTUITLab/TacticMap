@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.UI.BoundsControl;
 using UnityEngine;
@@ -39,28 +41,14 @@ public class Map : MonoBehaviourPunCallbacks
         bounding.ScaleStopped.AddListener(Release);
     }
 
+    private void Start()
+    {
+        StartCoroutine(syncCoroutine());
+    }
+
     void Update()
     {
-        for (int i = 0; i < objs.Count; ++i)
-        {
-            if (objs[i].NeedSyncPosition())
-            {
-                photonView.RPC("SyncPos", RpcTarget.Others, i, objs[i].transform.localPosition.x, objs[i].transform.localPosition.y, objs[i].transform.localPosition.z);
-                objs[i].AfterPositionSync();
-            }
 
-            if (objs[i].NeedSyncRotation())
-            {
-                photonView.RPC("SyncRot", RpcTarget.Others, i, objs[i].transform.localRotation.x, objs[i].transform.localRotation.y, objs[i].transform.localRotation.z, objs[i].transform.localRotation.w);
-                objs[i].AfterRotationSync();
-            }
-
-            if (objs[i].NeedSyncScale())
-            {
-                photonView.RPC("SyncScale", RpcTarget.Others, i, objs[i].transform.localScale.x, objs[i].transform.localScale.y, objs[i].transform.localScale.z);
-                objs[i].AfterScaleSync();
-            }
-        }
     }
 
     public void BtnChangeDisplayType()
@@ -196,7 +184,7 @@ public class Map : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncPos(int id, float x, float y, float z)
     {
-        objs[id].UpdPosition(x, y, z);
+        objs[id].ApplyDirection(x, y, z);
     }
 
     [PunRPC]
@@ -215,5 +203,31 @@ public class Map : MonoBehaviourPunCallbacks
     private void SyncStatus(int id, bool status, string name)
     {
         objs[id].CatchObj(status, name);
+    }
+
+    IEnumerator syncCoroutine()
+    {
+        while (true)
+        {
+            for (int i = 0; i < objs.Count; ++i)
+            {
+                if (objs[i].NeedSyncPosition())
+                {
+                    photonView.RPC("SyncPos", RpcTarget.Others, i, objs[i].transform.localPosition.x, objs[i].transform.localPosition.y, objs[i].transform.localPosition.z);
+                }
+
+                if (objs[i].NeedSyncRotation())
+                {
+                    photonView.RPC("SyncRot", RpcTarget.Others, i, objs[i].transform.localRotation.x, objs[i].transform.localRotation.y, objs[i].transform.localRotation.z, objs[i].transform.localRotation.w);
+                }
+
+                if (objs[i].NeedSyncScale())
+                {
+                    photonView.RPC("SyncScale", RpcTarget.Others, i, objs[i].transform.localScale.x,
+                        objs[i].transform.localScale.y, objs[i].transform.localScale.z);
+                }
+            }
+            yield return new WaitForSeconds(0.02f);
+        }
     }
 }
